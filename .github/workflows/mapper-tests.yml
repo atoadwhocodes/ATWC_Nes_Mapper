@@ -1,0 +1,17 @@
+name: Mapper reference tests
+on:
+  push:
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  reference:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build synthetic mapper harness
+        run: |
+          mkdir -p build
+          g++ -std=c++17 -Wall -Wextra -Itests/stubs -Imapper tests/engine_test.cpp -o build/mapper-tests
+      - name: Run mapper checks
+        run: ./build/mapper-tests

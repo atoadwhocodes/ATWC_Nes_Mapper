@@ -1,0 +1,8 @@
+/build/
+__pycache__/
+*.pyc
+/local-assets/
+*.wav
+*.zip
+*.7z
+*.nes

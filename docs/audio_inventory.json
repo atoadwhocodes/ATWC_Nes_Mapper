@@ -1,0 +1,240 @@
+{
+  "auditioned": false,
+  "files": [
+    {
+      "pack": "xDeviruchi",
+      "file": "xDeviruchi - And The Journey Begins .wav",
+      "seconds": 123.572,
+      "sample_rate": 44100,
+      "channels": 2,
+      "bits": 16
+    },
+    {
+      "pack": "xDeviruchi",
+      "file": "xDeviruchi - Decisive Battle.wav",
+      "seconds": 120.181,
+      "sample_rate": 44100,
+      "channels": 2,
+      "bits": 16
+    },
+    {
+      "pack": "xDeviruchi",
+      "file": "xDeviruchi - Exploring The Unknown.wav",
+      "seconds": 128.137,
+      "sample_rate": 44100,
+      "channels": 2,
+      "bits": 16
+    },
+    {
+      "pack": "xDeviruchi",
+      "file": "xDeviruchi - Minigame .wav",
+      "seconds": 76.792,
+      "sample_rate": 44100,
+      "channels": 2,
+      "bits": 16
+    },
+    {
+      "pack": "xDeviruchi",
+      "file": "xDeviruchi - Mysterious Dungeon.wav",
+      "seconds": 124.83,
+      "sample_rate": 44100,
+      "channels": 2,
+      "bits": 16
+    },
+    {
+      "pack": "xDeviruchi",
+      "file": "xDeviruchi - Prepare for Battle! .wav",
+      "seconds": 125.032,
+      "sample_rate": 44100,
+      "channels": 2,
+      "bits": 16
+    },
+    {
+      "pack": "xDeviruchi",
+      "file": "xDeviruchi - Take some rest and eat some food!.wav",
+      "seconds": 126.214,
+      "sample_rate": 44100,
+      "channels": 2,
+      "bits": 16
+    },
+    {
+      "pack": "xDeviruchi",
+      "file": "xDeviruchi - The Final of The Fantasy.wav",
+      "seconds": 117.203,
+      "sample_rate": 44100,
+      "channels": 2,
+      "bits": 16
+    },
+    {
+      "pack": "xDeviruchi",
+      "file": "xDeviruchi - The Icy Cave .wav",
+      "seconds": 129.1,
+      "sample_rate": 44100,
+      "channels": 2,
+      "bits": 16
+    },
+    {
+      "pack": "xDeviruchi",
+      "file": "xDeviruchi - Title Theme .wav",
+      "seconds": 128.891,
+      "sample_rate": 44100,
+      "channels": 2,
+      "bits": 16
+    },
+    {
+      "pack": "Canari",
+      "file": "1BITTopDownMusics - Track 01 (1BIT Adventure).wav",
+      "seconds": 41.24,
+      "sample_rate": 44100,
+      "channels": 1,
+      "bits": 16
+    },
+    {
+      "pack": "Canari",
+      "file": "1BITTopDownMusics - Track 02 (1BIT Dark Cave).wav",
+      "seconds": 36.44,
+      "sample_rate": 44100,
+      "channels": 1,
+      "bits": 16
+    },
+    {
+      "pack": "Canari",
+      "file": "1BITTopDownMusics - Track 03 (1BIT Eerie).wav",
+      "seconds": 38.5,
+      "sample_rate": 44100,
+      "channels": 1,
+      "bits": 16
+    },
+    {
+      "pack": "Canari",
+      "file": "Attack01.wav",
+      "seconds": 0.316,
+      "sample_rate": 44100,
+      "channels": 1,
+      "bits": 16
+    },
+    {
+      "pack": "Canari",
+      "file": "Attack02.wav",
+      "seconds": 0.308,
+      "sample_rate": 44100,
+      "channels": 1,
+      "bits": 16
+    },
+    {
+      "pack": "Canari",
+      "file": "Attack03.wav",
+      "seconds": 0.17,
+      "sample_rate": 44100,
+      "channels": 1,
+      "bits": 16
+    },
+    {
+      "pack": "Canari",
+      "file": "Death01.wav",
+      "seconds": 0.802,
+      "sample_rate": 44100,
+      "channels": 1,
+      "bits": 16
+    },
+    {
+      "pack": "Canari",
+      "file": "Death02.wav",
+      "seconds": 0.802,
+      "sample_rate": 44100,
+      "channels": 1,
+      "bits": 16
+    },
+    {
+      "pack": "Canari",
+      "file": "Fall01.wav",
+      "seconds": 0.298,
+      "sample_rate": 44100,
+      "channels": 1,
+      "bits": 16
+    },
+    {
+      "pack": "Canari",
+      "file": "Hurt01.wav",
+      "seconds": 0.29,
+      "sample_rate": 44100,
+      "channels": 1,
+      "bits": 16
+    },
+    {
+      "pack": "Canari",
+      "file": "Hurt02.wav",
+      "seconds": 0.506,
+      "sample_rate": 44100,
+      "channels": 1,
+      "bits": 16
+    },
+    {
+      "pack": "Canari",
+      "file": "Jump01.wav",
+      "seconds": 0.213,
+      "sample_rate": 44100,
+      "channels": 1,
+      "bits": 16
+    },
+    {
+      "pack": "Canari",
+      "file": "Jump02.wav",
+      "seconds": 0.245,
+      "sample_rate": 44100,
+      "channels": 1,
+      "bits": 16
+    },
+    {
+      "pack": "Canari",
+      "file": "Jump03.wav",
+      "seconds": 0.357,
+      "sample_rate": 44100,
+      "channels": 1,
+      "bits": 16
+    },
+    {
+      "pack": "Canari",
+      "file": "Land01.wav",
+      "seconds": 0.276,
+      "sample_rate": 44100,
+      "channels": 1,
+      "bits": 16
+    },
+    {
+      "pack": "Canari",
+      "file": "MenuBack01.wav",
+      "seconds": 0.197,
+      "sample_rate": 44100,
+      "channels": 1,
+      "bits": 16
+    },
+    {
+      "pack": "Canari",
+      "file": "MenuCursor01.wav",
+      "seconds": 0.121,
+      "sample_rate": 44100,
+      "channels": 1,
+      "bits": 16
+    },
+    {
+      "pack": "Canari",
+      "file": "MenuValid01.wav",
+      "seconds": 0.243,
+      "sample_rate": 44100,
+      "channels": 1,
+      "bits": 16
+    },
+    {
+      "pack": "Canari",
+      "file": "Pickup01.wav",
+      "seconds": 0.317,
+      "sample_rate": 44100,
+      "channels": 1,
+      "bits": 16
+    }
+  ],
+  "separated_segment_count": 21,
+  "separated_segment_type": "Intro/Loop/End WAV segments, not isolated instrument stems",
+  "rom_0027_audio": "APU disabled at boot; no sequencer or SFX engine"
+}
