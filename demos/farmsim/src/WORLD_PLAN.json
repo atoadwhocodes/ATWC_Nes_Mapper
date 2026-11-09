@@ -1,0 +1,24 @@
+{
+  "status": "Six outdoor areas and four interior types implemented; Mesen acceptance pending",
+  "west_to_east": [
+    "Ocean (planned)",
+    "Beach (planned)",
+    "West Field (planned)",
+    "West Barnyard",
+    "Farm",
+    "East Meadow",
+    "Signpost Trail",
+    "Town",
+    "Forest",
+    "Lake (planned)",
+    "Cave (planned)"
+  ],
+  "graphics_baseline": "0027: Human Empires NPCs and Tiny Wonder animals, built on 0026b doors",
+  "next_content": [
+    "Mesen acceptance and save/load",
+    "inventory UI",
+    "tool upgrades",
+    "animal purchases and paddock schedules",
+    "West Field and beach"
+  ]
+}

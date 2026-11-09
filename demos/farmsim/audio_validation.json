@@ -1,0 +1,17 @@
+{
+  "result": "PASS",
+  "effects": 9,
+  "max_modeled_nmi_cycles_including_dma": 1975,
+  "max_modeled_main_cycles": 7905,
+  "prg_bytes": 65536,
+  "checks": [
+    "effect expiry and silence",
+    "priority and invalid request",
+    "snapshot trace determinism",
+    "reset silence",
+    "held buttons do not retrigger",
+    "successful crop actions",
+    "palette and scene activity"
+  ],
+  "limits": "Register traces and modeled CPU cycles. Audible quality, exact PPU timing and real emulator save states still need Mesen acceptance."
+}

@@ -1,0 +1,41 @@
+{
+  "creator": "Daniel J. Roberge",
+  "mapper": 4095,
+  "requires": "ATWC-1 0018 or later",
+  "mirroring": "vertical",
+  "code_bytes": 6311,
+  "prg_bytes": 65536,
+  "main_table_bytes": 1172,
+  "fixed_free_bytes": 1448,
+  "audio": "original pulse/noise SFX; no music yet",
+  "payload_bytes": 31240,
+  "rom_bytes": 131088,
+  "data_bytes": 8118,
+  "fixed_data_bytes": 427,
+  "prg_layout": [
+    "farm, meadow, trail and town nametables",
+    "house, shops, forest, west barnyard and barn interior",
+    "gameplay metadata",
+    "main-thread room tables and initial OAM",
+    "reserved",
+    "reserved",
+    "reserved",
+    "fixed code, audio, NMI palettes"
+  ],
+  "outdoor_areas": 6,
+  "npcs": 4,
+  "animals": 2,
+  "graphics_baseline": "0026b doors plus Human Empires NPCs and Tiny Wonder animated animals",
+  "chr_bytes": 65536,
+  "farmable_tiles_per_area": 211,
+  "farmable_tiles": 422,
+  "economy": {
+    "crop_sell_price": 5,
+    "egg_sell_price": 3,
+    "milk_sell_price": 8,
+    "demo_feed_cost": 0,
+    "seed_buy_price": 2,
+    "wallet_max": 999
+  },
+  "sha256": "ac87f611cb1fa63f2600e630f272600258c3290a7816be2612de505b72fbdf6e"
+}
