@@ -1,0 +1,10 @@
+{
+  "result": "PASS",
+  "instruction_boundary_nmi_cases": 669,
+  "checks": [
+    "nondefault caller bank restored",
+    "registers, flags and stack preserved across NMI",
+    "banked drawing and collision complete after interruption"
+  ],
+  "limits": "Modeled CPU/I/O; hardware timing not proven."
+}

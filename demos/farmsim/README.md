@@ -1,26 +1,61 @@
-# FarmSim 0031 Regional World Art
+# ATWC-1 0032 Town Life
+Daniel J. Roberge / aToadWhoCodes
 
-Optional regional travel prototype layered on the 0029 local maps. Farmstead,
-Town and Forest have map posts: face the post from the road and press A. Walk on
-the regional road; A below a landmark enters it, B returns to the exact origin.
-A/B must be released after transfer. Local routes remain available. Time and tool
-use pause on the regional map; crops, animal products and inventory persist.
+Open `atwc1_0032_townlife_dev4095.nes` fresh in your ATWC-1 Mesen build.
+Do not load a save state from an older ROM. Development mapper ID remains 4095.
+The 0031a travel correction is retained and was confirmed by Dan in Mesen.
 
-64 KiB PRG, 72 KiB CHR. Region scene in PRG bank 4, separate CHR bases128/136,
-miniature farmer page128 at sprite slot8. Local banks restore on return; mapper
-ABI and development ID4095 unchanged. No Chrono Trigger code or graphics used.
+## New places to visit
+Travel to Town using the regional map or the eastward local road. In Town, walk
+right to the north/south avenue near the eastern side, then north to Civic Quarter.
+Civic Quarter contains Town Hall (left) and Clinic (right). Continue east to
+Riverside, with a Tavern and garden. Its southern avenue returns to Forest;
+west from Forest returns to the original Town. All four links work in reverse.
 
-Build from the supplied ATWC1_0031_WorldArt package. Public source excludes pack
-assets/converted binaries/ROMs and alone is not a complete build. Regenerate with
-graphics_polish.py, north_south_assets.py, overworld_assets.py, world_art.py, build.py; validate
-with validate.py. Requires py65, Pillow, g++. Cold-open the ROM without old states.
+Face a visible door from the road and press A. Town Hall, Clinic and Tavern all
+have interiors and counter dialogue. Their service text describes what is planned:
+meals, healing and requests are not implemented in this build.
 
-The local suite passed including regional travel, 50 vertical and 240 horizontal
-entry cases, animal/crop loops, audio and mapper interruption tests. A final
-focused overworld recheck covered headings, sentinel guard, planted crops and
-inventory, safe spawns and held input. Full Mesen PPU, audio and actual save-state
-acceptance remain pending. GitHub CI tests the mapper reference only.
+Rowan walks in Civic Quarter; Lena walks by the river during the day. At 18:00
+both gather in the Tavern. Face a resident and press A to talk. Talking pauses
+walking. These are two-phase schedules with short authored horizontal routes;
+actors change locations at the schedule boundary, without walking between zones.
+They do not block the player. Frames reuse existing pack poses.
 
-0031 adds WILLIBAB miniature terrain/buildings, original coastal connectors, road shoulders and region-only day/dusk/night palettes. Local CHR and collisions remain unchanged. See PACK_REVIEW.md. All scoped tests and focused palette restoration checks passed; Mesen acceptance pending.
+## Controls and existing features
+D-pad moves; double-tap and hold to dash. B cycles tools. A uses tools or interacts.
+Inside, face the southern exit and press A, or use START to leave.
+SELECT retains the Farm/Meadow shortcut. Crops, animal care, shipping, seed buying,
+sleep, day/night, original sound effects and the existing local routes remain.
 
-0031a fixes walk-up entry at landmark collision edges. Labels and A actions now share a 48-pixel-wide proximity zone. Three walked approaches and 87 boundary cases pass, plus regional and palette regression tests. See EXPANSION_PLAN.md for planned town districts, NPC routines, tools/resources, mine and fishing. The expansion is not implemented yet. Use the ATWC1_0031a_EntryFix package for the corrected ROM.
+Face a map post in Farm, Town or Forest and press A for regional travel. On the
+region map, stand below a landmark and press A; B returns to the departure point.
+Release A/B after a transfer. Clock and tools pause on the regional map.
+Three regional destinations remain; these new districts are connected local zones.
+
+## Build and verification
+Run `python build.py`, then `python validate.py` with py65, Pillow and g++ installed.
+The package includes precompiled art inputs. To regenerate graphics in order:
+`graphics_polish.py`, `north_south_assets.py`, `overworld_assets.py`, `world_art.py`,
+`town_life_assets.py`, then `build.py`. Review asset licenses before distribution.
+
+64 KiB PRG, 80 KiB CHR. PRG5 stores district/interior scenes. PRG6 runs selected
+movement, drawing and town routines through fixed-bank veneers that restore the
+caller bank. Reset, interrupt handlers, mapper API and interrupt data remain fixed.
+Dedicated district CHR pages 144/152 preserve earlier town graphics. Sign letters
+are allocated only to unused district tiles. No mapper ABI change.
+
+`validation.txt` records the modeled regression suite; `banked_code_validation.json`
+records 669 instruction-boundary NMI injections across banked calls. Reference PNGs
+are ROM-derived renders, not Mesen captures. Full Mesen acceptance for 0032 remains
+pending: walk the loop both ways, use all three doors, talk during day and after
+18:00, verify night graphics, try a fresh same-ROM save/load, and complete farm and
+animal chores. CPU/I/O models do not prove PPU timing or physical hardware behavior.
+
+## Next passes
+Tools and persistent resources, then larger woods/mine, then fishing. See
+EXPANSION_PLAN.md. Music, service transactions, in-game battery saves and expanded
+regional geography are not delivered in 0032.
+
+## Public source boundary
+This repository excludes third-party pack assets, converted art binaries and ROMs. Use the supplied private ATWC1_0032_TownLife package to build and run the game. Public source alone is not a complete build.

@@ -11,7 +11,7 @@
     "partial-load model replay",
     "night/local CHR restoration"
   ],
-  "max_nmi_cycles": 2034,
-  "max_main_cycles": 8603,
+  "max_nmi_cycles": 2035,
+  "max_main_cycles": 9086,
   "limits": "Modeled CPU/PPU I/O; full Mesen acceptance pending."
 }

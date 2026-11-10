@@ -41,7 +41,7 @@
       "scene": 5,
       "wram": 1,
       "farmable": false,
-      "north": null,
+      "north": 9,
       "south": null
     },
     {
@@ -52,7 +52,7 @@
       "scene": 6,
       "wram": 1,
       "farmable": false,
-      "north": null,
+      "north": 10,
       "south": null
     },
     {
@@ -98,6 +98,28 @@
       "scene": 12,
       "wram": 1,
       "farmable": false
+    },
+    {
+      "id": 9,
+      "name": "Civic Quarter",
+      "west": null,
+      "east": 10,
+      "north": null,
+      "south": 3,
+      "scene": 13,
+      "wram": 1,
+      "farmable": false
+    },
+    {
+      "id": 10,
+      "name": "Riverside",
+      "west": 9,
+      "east": null,
+      "north": null,
+      "south": 4,
+      "scene": 14,
+      "wram": 1,
+      "farmable": false
     }
   ],
   "npcs": [
@@ -140,6 +162,30 @@
       "dialogue": 7,
       "palette": 0,
       "room": 0
+    },
+    {
+      "name": "Rowan",
+      "role": "town resident",
+      "area": 9,
+      "x": 4,
+      "y": 9,
+      "dialogue": 11,
+      "palette": 0,
+      "room": 0,
+      "dynamic": 0,
+      "sprite": 0
+    },
+    {
+      "name": "Lena",
+      "role": "river resident",
+      "area": 10,
+      "x": 6,
+      "y": 11,
+      "dialogue": 12,
+      "palette": 1,
+      "room": 0,
+      "dynamic": 1,
+      "sprite": 3
     }
   ],
   "future_route": [
@@ -181,6 +227,21 @@
       "id": 4,
       "name": "Barn",
       "scene": 9
+    },
+    {
+      "id": 5,
+      "name": "Tavern",
+      "scene": 15
+    },
+    {
+      "id": 6,
+      "name": "Clinic",
+      "scene": 16
+    },
+    {
+      "id": 7,
+      "name": "Town Hall",
+      "scene": 17
     }
   ],
   "animals": [
@@ -242,5 +303,11 @@
     "entry": "face map post and press A",
     "exit": "A at a destination; B returns to origin",
     "time": "paused while on regional map"
+  },
+  "town_life": {
+    "day": "06:00-17:50 district walking loops",
+    "evening": "18:00 onward both residents gather in tavern",
+    "movement": "authored horizontal lanes, one pixel each four active frames; paused during dialogue",
+    "services": "informational dialogue only; no healing, meals or town quests yet"
   }
 }

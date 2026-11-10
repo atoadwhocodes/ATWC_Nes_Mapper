@@ -1,10 +1,10 @@
-"""ATWC-1 Regional Overworld 0031. Deterministic 6502 ROM builder; no external assembler."""
+"""ATWC-1 Town Life 0032. Deterministic 6502 ROM builder; no external assembler."""
 from pathlib import Path
 import json,hashlib
 from assembler import Asm,OPS
 P=Path(__file__).resolve().parent
 OPS.update({'BPL r':0x10,'CLI':0x58,'RTI':0x40,'TYA':0x98,'TAY':0xa8,'DEC z':0xc6,'ROL z':0x26,'CLC':0x18,'SEC':0x38,'ADC #':0x69,'ADC z':0x65,'SBC #':0xe9,'SBC z':0xe5,'DEX':0xca,'BCC r':0x90,'BCS r':0xb0,'ORA z':0x05,'AND z':0x25,'LDY z':0xa4,'STY z':0x84,'ADC ax':0x7d,'AND ax':0x3d,'LDA ay':0xb9,'STA ay':0x99,'INC ax':0xfe,'ADC ay':0x79})
-names='tick buttons previous pressed px ph py direction moving steps cx ch cy ptr ptrhi pointx pointh pointy col row tool seeds harvest clock flash ready queue qhi qlo qbase camlo camhi walkbank waterbank tile tempy temp digit tx targetcol targetrow plot retx rety visible toolattr tap_timer lastdir dashdir newdir dialogue render_mask moneylo moneyhi cashlo cashhi divlo divhi hundreds message anim_tick day hour minute paloffset paldirty horizonbank lastwaterplot room loading loadchunk loadhi loadlo loadptr loadptrhi mptr mptrhi qattrlo qattrhi qattrval returnx returnh returny mxm5_bank_8000_lo mxm5_bank_8000_hi mxm5_bank_A000_lo mxm5_bank_A000_hi mxm5_bank_C000_lo mxm5_bank_C000_hi mxm5_wram_bank mxm5_wram_ctrl mxm5_chr_temp area grow_area scene nearx nearctrl farx raster litbase gate gate_dir gate_count npc_x npc_hi npc_tile npc_y nmi_pal_lo nmi_pal_hi feed cow_fed hen_fed cow_ready hen_ready milk eggs animal_kind care_result audio_pending audio_active audio_ticks world_origin world_returnx world_returnh world_returny travel_lock'.split()
+names='tick buttons previous pressed px ph py direction moving steps cx ch cy ptr ptrhi pointx pointh pointy col row tool seeds harvest clock flash ready queue qhi qlo qbase camlo camhi walkbank waterbank tile tempy temp digit tx targetcol targetrow plot retx rety visible toolattr tap_timer lastdir dashdir newdir dialogue render_mask moneylo moneyhi cashlo cashhi divlo divhi hundreds message anim_tick day hour minute paloffset paldirty horizonbank lastwaterplot room loading loadchunk loadhi loadlo loadptr loadptrhi mptr mptrhi qattrlo qattrhi qattrval returnx returnh returny mxm5_bank_8000_lo mxm5_bank_8000_hi mxm5_bank_A000_lo mxm5_bank_A000_hi mxm5_bank_C000_lo mxm5_bank_C000_hi mxm5_wram_bank mxm5_wram_ctrl mxm5_chr_temp area grow_area scene nearx nearctrl farx raster litbase gate gate_dir gate_count npc_x npc_hi npc_tile npc_y nmi_pal_lo nmi_pal_hi feed cow_fed hen_fed cow_ready hen_ready milk eggs animal_kind care_result audio_pending audio_active audio_ticks world_origin world_returnx world_returnh world_returny travel_lock bank_a bank_x bank_p resident0_x resident1_x resident0_dir resident1_dir resident_phase resident_ready'.split()
 Z={n:i for i,n in enumerate(names)};globals().update(Z)
 SELL_PRICE=5;SEED_PRICE=2;MAX_GOLD=999
 STATES=0x6000;TIMERS=0x6100;DIRTY=0x500
@@ -53,7 +53,7 @@ o('LDA z',loading);o('BEQ r','loaded_input');o('JMP a','stream_next');l('loaded_
 # B closes trading screens; A executes one quoted transaction per fresh press.
 o('LDA z',dialogue);o('BEQ r','normal_input');o('JSR a','dialog_input');o('LDA z',dialogue);o('BNE r','dialog_stay')
 sv(render_mask,0x1e);sv(dashdir,0);sv(tap_timer,0);o('JSR a','restore_oam');o('JSR a','camera_target')
-l('dialog_stay');o('JSR a','draw_sprites');o('JMP a','publish');l('normal_input');o('LDA z',pressed);o('AND #',0x20);o('BEQ r','no_travel_input');o('LDA z',room);o('BNE r','no_travel_input');o('LDA z',area);o('CMP #',2);o('BCS r','no_travel_input');o('JSR a','travel_field');o('JSR a','stream_prepare');o('JMP a','publish');l('no_travel_input')
+l('dialog_stay');o('JSR a','draw_sprites');o('JMP a','publish');l('normal_input');o('JSR a','resident_update');o('LDA z',pressed);o('AND #',0x20);o('BEQ r','no_travel_input');o('LDA z',room);o('BNE r','no_travel_input');o('LDA z',area);o('CMP #',2);o('BCS r','no_travel_input');o('JSR a','travel_field');o('JSR a','stream_prepare');o('JMP a','publish');l('no_travel_input')
 o('LDA z',buttons);o('AND #',128);o('BNE r','water_button_held');sv(lastwaterplot,255);l('water_button_held')
 o('LDA z',flash);o('BEQ r','no_flash');o('DEC z',flash);l('no_flash')
 o('LDA z',pressed);o('AND #',0x40);o('BEQ r','tool_done');sv(audio_pending,1);o('INC z',tool);o('LDA z',tool);o('CMP #',3);o('BNE r','tool_done');sv(tool,0);l('tool_done')
@@ -94,7 +94,7 @@ for rowoffset in (0,32):
  o('STA a',0x2007);o('CLC');o('ADC #',1);o('STA a',0x2007)
 o('LDA z',qattrhi);o('STA a',0x2006);o('LDA z',qattrlo);o('STA a',0x2006);o('LDA z',qattrval);o('STA a',0x2007);sv(queue,0)
 l('no_patch');o('LDA z',loading);o('BEQ r','palette_consider');o('JMP a','palette_done');l('palette_consider');o('LDA z',paldirty);o('BEQ r','palette_skip_jump');o('JMP a','palette_upload');l('palette_skip_jump');o('JMP a','palette_done')
-l('palette_upload');pa(0x3f00);o('LDX #',3);o('LDA z',room);o('BNE r','palette_family_ready');o('LDX #',0);o('LDA z',area);o('CMP #',3);o('BNE r','palette_not_town');o('LDX #',1);o('JMP a','palette_family_ready');l('palette_not_town');o('CMP #',8);o('BNE r','palette_not_region');o('LDX #',4);o('JMP a','palette_family_ready');l('palette_not_region');o('CMP #',5);o('BNE r','palette_family_ready');o('LDX #',2);l('palette_family_ready')
+l('palette_upload');pa(0x3f00);o('LDX #',3);o('LDA z',room);o('BNE r','palette_family_ready');o('LDX #',0);o('LDA z',area);o('CMP #',9);o('BCS r','palette_is_town');o('CMP #',3);o('BNE r','palette_not_town');l('palette_is_town');o('LDX #',1);o('JMP a','palette_family_ready');l('palette_not_town');o('CMP #',8);o('BNE r','palette_not_region');o('LDX #',4);o('JMP a','palette_family_ready');l('palette_not_region');o('CMP #',5);o('BNE r','palette_family_ready');o('LDX #',2);l('palette_family_ready')
 o('LDA ax','palette_family_lo');o('CLC');o('ADC z',paloffset);o('STA z',nmi_pal_lo);o('LDA ax','palette_family_hi');o('ADC #',0);o('STA z',nmi_pal_hi);o('LDY #',0)
 for i in range(32):o('LDA iy',nmi_pal_lo);o('STA a',0x2007);o('INY')
 sv(paldirty,0);l('palette_done');o('LDA z',loading);o('BEQ r','backdrop_ready');pa(0x3f00);sv(0x2007,0x0f);l('backdrop_ready')
@@ -154,7 +154,7 @@ for j,(dx,dy) in enumerate([(-3,-4),(3,-4),(-3,0),(3,0)]):
 o('LDA #',0);o('RTS')
 l('point_solid');o('LDA z',pointy)
 for _ in range(4):o('LSR A')
-o('TAX');o('LDA z',room);o('BEQ r','outside_collision');o('CMP #',1);o('BEQ r','house_collision');o('CMP #',4);o('BNE r','shop_collision_rows');o('TXA');o('CLC');o('ADC #',30);o('TAX');o('JMP a','house_collision');l('shop_collision_rows');o('TXA');o('CLC');o('ADC #',15);o('TAX');l('house_collision');o('LDA ax','roomrowlo');o('STA z',ptr);o('LDA ax','roomrowhi');o('STA z',ptrhi);o('LDA z',pointx)
+o('TAX');o('LDA z',room);o('BEQ r','outside_collision');o('TAY');o('TXA');o('CLC');o('ADC ay','room_collision_offset');o('TAX');l('house_collision');o('LDA ax','roomrowlo');o('STA z',ptr);o('LDA ax','roomrowhi');o('STA z',ptrhi);o('LDA z',pointx)
 for _ in range(4):o('LSR A')
 o('TAY');o('LDA z',pointh);o('BNE r','room_outside_bounds');o('CPY #',16);o('BCC r','room_point_read');l('room_outside_bounds');o('LDA #',1);o('RTS');l('room_point_read');o('LDA iy',ptr);o('RTS');l('outside_collision');o('LDY z',area);o('TXA');o('CLC');o('ADC ay','area_collision_offset');o('TAX');l('outdoor_collision_row');o('LDA ax','rowlo');o('STA z',ptr);o('LDA ax','rowhi');o('STA z',ptrhi)
 o('LDA z',pointh)
@@ -183,7 +183,7 @@ l('target_hide');sv(visible,0);l('target_end');o('RTS')
 # Data-driven interaction locations: sign, shipping bin, seed stall.
 l('action');o('LDA z',room);o('BEQ r','outdoor_action')
 o('LDA z',targetcol);o('CMP #',7);o('BNE r','room_not_exit');o('LDA z',targetrow);o('CMP #',13);o('BNE r','room_not_exit');o('JMP a','leave_room')
-l('room_not_exit');o('JSR a','animal_interaction');o('BEQ r','room_no_animal');o('LDA #',10);o('JMP a','open_dialog');l('room_no_animal');o('LDA z',room);o('CMP #',1);o('BNE r','shop_counter');o('LDA z',targetcol);o('CMP #',4);o('BNE r','room_action_end');o('LDA z',targetrow);o('CMP #',6);o('BNE r','room_action_end');o('LDA #',4);o('JMP a','open_dialog')
+l('room_not_exit');o('JSR a','resident_interaction');o('BEQ r','room_not_resident');o('JMP a','open_dialog');l('room_not_resident');o('JSR a','animal_interaction');o('BEQ r','room_no_animal');o('LDA #',10);o('JMP a','open_dialog');l('room_no_animal');o('LDA z',room);o('CMP #',1);o('BNE r','shop_counter');o('LDA z',targetcol);o('CMP #',4);o('BNE r','room_action_end');o('LDA z',targetrow);o('CMP #',6);o('BNE r','room_action_end');o('LDA #',4);o('JMP a','open_dialog')
 l('shop_counter');o('LDA z',targetrow);o('CMP #',5);o('BNE r','room_action_end');o('LDA z',targetcol);o('CMP #',5);o('BCC r','room_action_end');o('CMP #',11);o('BCS r','room_action_end');o('LDX z',room);o('LDA ax','room_dialog');o('JMP a','open_dialog')
 l('room_action_end');o('RTS');l('outdoor_action');o('JSR a','world_post');o('BEQ r','not_world_post');o('RTS');l('not_world_post');o('JSR a','npc_interaction');o('BEQ r','no_npc_interaction');o('JMP a','open_dialog');l('no_npc_interaction');o('LDA z',area);o('CMP #',2);o('BCC r','field_interactions');o('JMP a','public_interaction');l('field_interactions');o('LDA z',area);o('BEQ r','home_interactions');o('LDA z',targetcol);o('CMP #',11);o('BNE r','meadow_farm_action');o('LDA z',targetrow);o('CMP #',8);o('BNE r','meadow_farm_action');o('LDA #',1);o('JMP a','open_dialog');l('meadow_farm_action');o('JMP a','action_farm');l('home_interactions');o('LDX #',0);l('interact_loop');o('LDA z',targetcol);o('CMP ax','interact_x');o('BNE r','interact_next');o('LDA z',targetrow);o('CMP ax','interact_y');o('BNE r','interact_next');o('LDA ax','interact_kind');o('CMP #',5);o('BCC r','open_dialog');o('SEC');o('SBC #',4);o('JMP a','enter_room');l('open_dialog');o('STA z',dialogue);sv(audio_pending,2);sv(message,0);sv(render_mask,0x14);sv(moving,0);sv(dashdir,0);sv(tap_timer,0);o('RTS')
 l('interact_next');o('INX');o('CPX #',len(art['interactables']));o('BNE r','interact_loop')
@@ -327,15 +327,15 @@ l('vertical_south');o('CMP #',232);o('BCC r','vertical_no');o('LDA z',buttons);o
 l('vertical_start');sv(px,176);sv(ph,1);o('JSR a','select_area_wram');o('JMP a','begin_stream');l('vertical_no');o('RTS')
 l('select_area_wram');o('LDX z',area);o('LDA ax','area_wram');o('JMP a','Mapper_SetWRAMBank')
 # Return dialogue ID in A, zero if no NPC occupies the faced cell.
-l('npc_interaction');o('LDX #',0);l('npc_find');o('LDA ax','npc_room');o('BNE r','npc_find_next');o('LDA z',area);o('CMP ax','npc_area');o('BNE r','npc_find_next');o('LDA z',targetcol);o('CMP ax','npc_col');o('BNE r','npc_find_next');o('LDA z',targetrow);o('CMP ax','npc_row');o('BNE r','npc_find_next');o('LDA ax','npc_dialog');o('RTS');l('npc_find_next');o('INX');o('CPX #',len(npcs));o('BNE r','npc_find');o('LDA #',0);o('RTS')
-l('public_interaction');o('LDA z',area);o('CMP #',5);o('BNE r','public_town');o('LDA z',targetrow);o('CMP #',7);o('BNE r','public_done');o('LDA z',targetcol);o('CMP #',10);o('BNE r','public_done');o('LDA #',4);o('JMP a','enter_room')
+l('npc_interaction');o('JSR a','resident_interaction');o('BEQ r','stationary_interaction');o('RTS');l('stationary_interaction');o('LDX #',0);l('npc_find');o('LDA ax','npc_room');o('BNE r','npc_find_next');o('LDA z',area);o('CMP ax','npc_area');o('BNE r','npc_find_next');o('LDA z',targetcol);o('CMP ax','npc_col');o('BNE r','npc_find_next');o('LDA z',targetrow);o('CMP ax','npc_row');o('BNE r','npc_find_next');o('LDA ax','npc_dialog');o('RTS');l('npc_find_next');o('INX');o('CPX #',4);o('BNE r','npc_find');o('LDA #',0);o('RTS')
+l('public_interaction');o('JSR a','district_door');o('BEQ r','old_public_interaction');o('RTS');l('old_public_interaction');o('LDA z',area);o('CMP #',5);o('BNE r','public_town');o('LDA z',targetrow);o('CMP #',7);o('BNE r','public_done');o('LDA z',targetcol);o('CMP #',10);o('BNE r','public_done');o('LDA #',4);o('JMP a','enter_room')
 l('public_town');o('CMP #',3);o('BNE r','trail_sign');o('LDA z',targetrow);o('CMP #',7);o('BNE r','public_done');o('LDA z',targetcol);o('CMP #',10);o('BNE r','town_not_shop');o('LDA #',2);o('JMP a','enter_room');l('town_not_shop');o('CMP #',22);o('BNE r','town_sign');o('LDA #',3);o('JMP a','enter_room');l('town_sign');o('CMP #',16);o('BNE r','public_done');o('LDA #',8);o('JMP a','open_dialog')
 l('trail_sign');o('LDA z',area);o('CMP #',2);o('BNE r','public_done');o('LDA z',targetrow);o('CMP #',7);o('BNE r','public_done');o('LDA z',targetcol);o('CMP #',10);o('BNE r','public_done');o('LDA #',5);o('JMP a','open_dialog');l('public_done');o('RTS')
 # Twelve reserved OAM entries support three 16x16 NPCs. Clip whole actors at edges.
 l('draw_npcs')
 for slot in range(49,63):sv(0x200+slot*4,255)
 o('LDA z',room);o('CMP #',4);o('BNE r','draw_people');o('JSR a','draw_animals');o('RTS');l('draw_people')
-for i,n in enumerate(npcs):
+for i,n in enumerate(npcs[:4]):
  slot=49+(0 if n['room'] or i==0 else i-1)*4
  o('LDA z',room);o('CMP #',n['room']);o('BEQ r',f'npc_room_{i}');o('JMP a',f'npc_skip_{i}');l(f'npc_room_{i}')
  if not n['room']:
@@ -352,7 +352,7 @@ for i,n in enumerate(npcs):
   if j%2:o('CLC');o('ADC #',8)
   o('STA a',0x203+(slot+j)*4)
  l(f'npc_skip_{i}')
-o('RTS')
+o('JSR a','draw_residents');o('RTS')
 # Dedicated animal OAM never overlaps the HUD, NPCs or moon.
 l('draw_animals')
 for name,slot,x,y,w,h,tilebase,frameoffset,pal in [('cow',49,64,120,3,3,224,9,1),('hen',58,176,160,2,2,242,4,0)]:
@@ -382,6 +382,10 @@ for _ in range(3):o('ASL A')
 o('TAY');o('LDX #',128);l('animal_result_text');o('LDA ay','animal_results');o('STA ax',0x201);o('INY')
 for _ in range(4):o('INX')
 o('CPX #',160);o('BNE r','animal_result_text');o('RTS')
+from town_life_engine import emit_town_life
+emit_town_life(a,Z)
+from banked_code import relocate
+bankcode,bank_exports=relocate(a,Z)
 # Code and NMI palettes stay in final 8 KiB. Scene banks 0/1 stream through $8000; metadata stays in bank 2 at $C000.
 nt=(P/'nametables.bin').read_bytes();oam=bytearray([255]*256)
 def spr(i,y,t,at,x):oam[i*4:i*4+4]=bytes([y,t,at,x])
@@ -418,12 +422,12 @@ blob('farmmap',farmmap)
 blob('farmrowlo',[(a.labels['farmmap']+y*32)&255 for y in range(15)])
 blob('farmrowhi',[(a.labels['farmmap']+y*32)>>8 for y in range(15)])
 blob('farmattrs',nt[960:1024]+nt[1984:2048]);meadow=(P/'meadow_nt.bin').read_bytes();blob('meadowattrs',meadow[960:1024]+meadow[1984:2048])
-main_blob('collision',b''.join((P/f).read_bytes() for f in ['collision.bin','meadow_collision.bin','trail_collision.bin','town_collision.bin','forest_collision.bin','west_collision.bin','north_collision.bin','south_collision.bin','overworld_collision.bin']))
+main_blob('collision',b''.join((P/f).read_bytes() for f in ['collision.bin','meadow_collision.bin','trail_collision.bin','town_collision.bin','forest_collision.bin','west_collision.bin','north_collision.bin','south_collision.bin','overworld_collision.bin','civic_collision.bin','riverside_collision.bin']))
 blob('rowlo',[(a.labels['collision']+y*32)&255 for y in range(15*len(areas))])
 blob('rowhi',[(a.labels['collision']+y*32)>>8 for y in range(15*len(areas))])
 blob('area_collision_offset',[i*15 for i in range(len(areas))])
 for key in ('west','east','north','south','scene','wram'):blob('area_'+key,[255 if ar[key] is None else ar[key] for ar in areas])
-blob('area_name_offset',[i*5 for i in range(len(areas))]);blob('area_names',[32+chars.index(c) for c in 'FARM1MEADWTRAILTOWN WOODSWEST NORTHSOUTHWORLD'])
+blob('area_name_offset',[i*5 for i in range(len(areas))]);blob('area_names',[32+chars.index(c) for c in 'FARM1MEADWTRAILTOWN WOODSWEST NORTHSOUTHWORLDCIVICRIVER'])
 for label,key in [('npc_area','area'),('npc_room','room'),('npc_col','x'),('npc_row','y'),('npc_dialog','dialogue')]:blob(label,[n[key] for n in npcs])
 # Initial OAM lives in fixed PRG to leave room for outdoor collision metadata.
 dialog=bytearray()
@@ -442,6 +446,12 @@ texts += [
  ['THE POND','FERN    ','SEEDS 2G','BRAM    ','SMITH   ','WEST TO ','TRAIL   ','A CLOSE '],
  ['FEED BIN','FREE    ','SUPPLIES','FOR DEMO','        ','A REFILL','B BACK  ','        '],
  ['COW     ','FEED  00','EGGS  00','MILK  00','        ','A CLOSE ','B BACK  ','        ']]
+texts += [
+ ['ROWAN   ','MORNING ','AT CIVIC','EVENING ','AT THE  ','TAVERN  ','A CLOSE ','B BACK  '],
+ ['LENA    ','RIVER   ','WALK BY ','DAY     ','TAVERN  ','AT NIGHT','A CLOSE ','B BACK  '],
+ ['TAVERN  ','COME IN ','EVENING ','TO MEET ','FRIENDS ','MEALS   ','LATER   ','A CLOSE '],
+ ['CLINIC  ','WELCOME ','CARE    ','SERVICE ','PLANNED ','REST AT ','HOME    ','A CLOSE '],
+ ['TOWNHALL','CIVIC   ','QUARTER ','REQUESTS','PLANNED ','EXPLORE ','OUR TOWN','A CLOSE ']]
 for i,lines in enumerate(texts):
  assert len(lines)==8 and all(len(line)==8 for line in lines),(i,lines)
  blob('text'+str(i),[32+chars.index(c) for line in lines for c in line])
@@ -459,16 +469,16 @@ blob('plotattrindex',[x//16*64+(y//2)*8+(x%16)//2 for x,y in art['plots']])
 blob('plotattrhi',[0x23+x//16*4 for x,y in art['plots']])
 blob('plotattrmask',[3<<((y%2)*4+(x%2)*2) for x,y in art['plots']])
 blob('state_tiles',[art['blocks'][name][0] for name in ('raw','tilled','seeded','wet','sprout','ripe')])
-main_blob('world_headings',[32+chars.index(c) for c in 'REGION  FARM    TOWN    FOREST  ']);main_blob('world_post_col',[28,255,255,16,14,255,255,255,255]);main_blob('world_node_x',[88,88,88,248,152,88,88,88,88]);main_blob('world_node_h',[0,0,0,0,1,0,0,0,0])
+main_blob('world_headings',[32+chars.index(c) for c in 'REGION  FARM    TOWN    FOREST  ']);main_blob('world_post_col',[28,255,255,16,14,255,255,255,255,255,255]);main_blob('world_node_x',[88,88,88,248,152,88,88,88,88,248,248]);main_blob('world_node_h',[0,0,0,0,1,0,0,0,0,0,0])
 fixed=bytearray()
 def fixed_blob(name,data):
  a.labels[name]=a.pc+len(fixed);fixed.extend(data)
 main_blob('animal_names',[32+chars.index(c) for c in 'COW     CHICKEN ']);main_blob('animal_results',[32+chars.index(c) for c in 'FED     ALREADY NO FEED GOT ITEMBAG FULL'])
-main_blob('roomcollision',(P/'room_collision.bin').read_bytes()+(P/'barn_collision.bin').read_bytes())
-main_blob('roomrowlo',[(a.labels['roomcollision']+y*16)&255 for y in range(45)])
-main_blob('roomrowhi',[(a.labels['roomcollision']+y*16)>>8 for y in range(45)])
-main_blob('room_scene',[0,1,2,8,9]);main_blob('room_dialog',[0,4,3,6,9]);main_blob('initial_oam',oam);fixed_blob('area_chr_offset',[0,0,0,32,48,64,0,0,96]);fixed_blob('night_sky',[48]+[48]*25+[49,50,51]);main_blob('scenehigh',[0x80,0x80,0x84,0x88,0x90,0x98,0x88,0x90,0x98,0x9c,0x80,0x88,0x90])
-main_blob('scene_bank_lo',[0,1,1,0,0,0,1,1,1,1,4,4,4]);main_blob('scene_bank_hi',[0]*13);main_blob('scene_chunk_mask',[31,15,15,31,31,31,31,31,15,15,31,31,31])
+main_blob('roomcollision',(P/'room_collision.bin').read_bytes()+(P/'barn_collision.bin').read_bytes()+(P/'town_rooms_collision.bin').read_bytes())
+main_blob('roomrowlo',[(a.labels['roomcollision']+y*16)&255 for y in range(90)])
+main_blob('roomrowhi',[(a.labels['roomcollision']+y*16)>>8 for y in range(90)])
+main_blob('room_collision_offset',[0,0,15,15,30,45,60,75]);main_blob('room_scene',[0,1,2,8,9,15,16,17]);main_blob('room_dialog',[0,4,3,6,9,13,14,15]);main_blob('initial_oam',oam);fixed_blob('area_chr_offset',[0,0,0,32,48,64,0,0,96,112,112]);fixed_blob('night_sky',[48]+[48]*25+[49,50,51]);main_blob('scenehigh',[0x80,0x80,0x84,0x88,0x90,0x98,0x88,0x90,0x98,0x9c,0x80,0x88,0x90,0x80,0x88,0x90,0x94,0x98])
+main_blob('scene_bank_lo',[0,1,1,0,0,0,1,1,1,1,4,4,4,5,5,5,5,5]);main_blob('scene_bank_hi',[0]*18);main_blob('scene_chunk_mask',[31,15,15,31,31,31,31,31,15,15,31,31,31,31,31,15,15,15])
 town_palettes=[];west_palettes=[];interior_palettes=[]
 for phase,(original,stone) in enumerate(((palette,[0x09,0x00,0x10,0x30]),(dusk,[0x0b,0x0f,0x00,0x10]),(night,[0x0f,0x0f,0x00,0x10]))):
  town=original[:];town[12:16]=stone
@@ -483,16 +493,20 @@ for original,bg in ((palette,[9,11,26,41,9,7,23,55,9,17,33,49,9,15,16,48]),(dusk
 palbase=a.pc+len(fixed);fixed_blob('day_palettes',palette+dusk+night+town_palettes+west_palettes+interior_palettes+region_palettes)
 fixed_blob('palette_family_lo',[(palbase+i*96)&255 for i in range(5)]);fixed_blob('palette_family_hi',[(palbase+i*96)>>8 for i in range(5)])
 (P/'day_palettes.json').write_text(json.dumps([palette,dusk,night]))
+bank_bytes,bank_src,bank_lst=bankcode.finish();assert len(bank_bytes)<=8192
+assert len(main_tables)<=8192
 code,src,lst=a.finish();data=b''.join(blobs);payload=code+data+fixed+main_tables+(P/'overworld_nt.bin').read_bytes()+(P/'north_nt.bin').read_bytes()+(P/'south_nt.bin').read_bytes()+nt+meadow+(P/'trail_nt.bin').read_bytes()+(P/'town_nt.bin').read_bytes()+(P/'house_nt.bin').read_bytes()+(P/'shop_nt.bin').read_bytes()+(P/'forest_nt.bin').read_bytes()+(P/'west_nt.bin').read_bytes()+(P/'smith_nt.bin').read_bytes()+(P/'barn_nt.bin').read_bytes();assert len(code)+len(fixed)<0x1ffa and len(data)<=8192,(len(code),len(data))
 prg=bytearray(65536);prg[:len(nt)]=nt;prg[2048:4096]=meadow;prg[4096:6144]=(P/'trail_nt.bin').read_bytes();prg[6144:8192]=(P/'town_nt.bin').read_bytes();prg[8192:10240]=(P/'house_nt.bin').read_bytes()+(P/'shop_nt.bin').read_bytes();prg[10240:12288]=(P/'forest_nt.bin').read_bytes();prg[12288:14336]=(P/'west_nt.bin').read_bytes();prg[14336:15360]=(P/'smith_nt.bin').read_bytes();prg[15360:16384]=(P/'barn_nt.bin').read_bytes();prg[16384:16384+len(data)]=data;prg[24576:24576+len(main_tables)]=main_tables;prg[57344:57344+len(code)+len(fixed)]=code+fixed
 prg[32768:36864]=(P/'north_nt.bin').read_bytes()+(P/'south_nt.bin').read_bytes()
 prg[36864:38912]=(P/'overworld_nt.bin').read_bytes()
+prg[40960:48128]=b''.join((P/(n+'_nt.bin')).read_bytes() for n in ('civic','riverside','tavern','clinic','hall'))
+prg[49152:49152+len(bank_bytes)]=bank_bytes
 prg[-6:]=b''.join(a.labels[n].to_bytes(2,'little') for n in ('nmi','reset','irq'))
 (P/'chr.bin').write_bytes((P/'fixed_chr.bin').read_bytes())
 rom=b'NES\x1a'+bytes([4,len((P/'chr.bin').read_bytes())//8192,0xf1,0xf8,0x0f,0,14,0,0,0,0,0])+prg+(P/'chr.bin').read_bytes()
-(P/'atwc1_0031a_entryfix_dev4095.nes').write_bytes(rom)
-(P/'code_listing.s').write_text(src+'\n; Binary data appended by build.py\n');(P/'listing.txt').write_text(lst);(P/'symbols.json').write_text(json.dumps(a.labels,indent=2));(P/'ram.json').write_text(json.dumps({'zero_page':Z,'states':STATES,'timers':TIMERS,'dirty':DIRTY,'attributes':ATTRS,'field_banks':[0,1]},indent=2));(P/'palette.json').write_text(json.dumps(palette));(P/'initial_oam.bin').write_bytes(oam)
-(P/'manifest.json').write_text(json.dumps({'creator':'Daniel J. Roberge','mapper':4095,'requires':'ATWC-1 0018 or later','mirroring':'vertical','code_bytes':len(code),'prg_bytes':len(prg),'main_table_bytes':len(main_tables),'fixed_free_bytes':8192-6-len(code)-len(fixed),'audio':'original pulse/noise SFX; no music yet','payload_bytes':len(payload),'rom_bytes':len(rom),'data_bytes':len(data),'fixed_data_bytes':len(fixed),'prg_layout':['farm, meadow, trail and town nametables','house, shops, forest, west barnyard and barn interior','gameplay metadata','main-thread outdoor/room collision tables and initial OAM','north pasture, south field and regional overworld','reserved','reserved','fixed code, audio, NMI palettes'],'outdoor_areas':len(areas),'npcs':4,'animals':2,'overworld_destinations':3,'graphics_baseline':'0031 WILLIBAB regional terrain and destinations; 0029 quieter grass and dirt, larger town paving, broad interior planks; pack actors/buildings retained','chr_bytes':len((P/'chr.bin').read_bytes()),'farmable_tiles_per_area':N,'farmable_tiles':N*2,'economy':{'crop_sell_price':SELL_PRICE,'egg_sell_price':3,'milk_sell_price':8,'demo_feed_cost':0,'seed_buy_price':SEED_PRICE,'wallet_max':MAX_GOLD},'sha256':hashlib.sha256(rom).hexdigest()},indent=2))
+(P/'atwc1_0032_townlife_dev4095.nes').write_bytes(rom)
+(P/'code_listing.s').write_text(src+'\n; PRG bank 6 at $8000\n'+bank_src+'\n; Binary data appended by build.py\n');(P/'listing.txt').write_text(lst+'\n; PRG bank 6\n'+bank_lst);(P/'symbols.json').write_text(json.dumps(a.labels,indent=2));(P/'ram.json').write_text(json.dumps({'zero_page':Z,'states':STATES,'timers':TIMERS,'dirty':DIRTY,'attributes':ATTRS,'field_banks':[0,1]},indent=2));(P/'palette.json').write_text(json.dumps(palette));(P/'initial_oam.bin').write_bytes(oam)
+(P/'manifest.json').write_text(json.dumps({'creator':'Daniel J. Roberge','mapper':4095,'requires':'ATWC-1 0018 or later','mirroring':'vertical','banked_code_bytes':len(bank_bytes),'banked_exports':bank_exports,'code_bytes':len(code),'prg_bytes':len(prg),'main_table_bytes':len(main_tables),'fixed_free_bytes':8192-6-len(code)-len(fixed),'audio':'original pulse/noise SFX; no music yet','payload_bytes':len(payload)+len(bank_bytes)+7168,'rom_bytes':len(rom),'data_bytes':len(data),'fixed_data_bytes':len(fixed),'prg_layout':['farm, meadow, trail and town nametables','house, shops, forest, west barnyard and barn interior','gameplay metadata','main-thread outdoor/room collision tables and initial OAM','north pasture, south field and regional overworld','town districts and three interiors','banked movement and drawing','fixed code, audio, NMI palettes'],'outdoor_areas':len(areas),'npcs':6,'walking_residents':2,'animals':2,'overworld_destinations':3,'graphics_baseline':'0032 Tiny Wonder civic/riverside districts and furnished service rooms; 0031 WILLIBAB regional terrain and destinations; 0029 quieter grass and dirt, larger town paving, broad interior planks; pack actors/buildings retained','chr_bytes':len((P/'chr.bin').read_bytes()),'farmable_tiles_per_area':N,'farmable_tiles':N*2,'economy':{'crop_sell_price':SELL_PRICE,'egg_sell_price':3,'milk_sell_price':8,'demo_feed_cost':0,'seed_buy_price':SEED_PRICE,'wallet_max':MAX_GOLD},'sha256':hashlib.sha256(rom).hexdigest()},indent=2))
 print('Built farming ROM:',len(rom),'bytes;',len(code),'code;',len(payload),'total code/data bytes')
 
 # Address-binding include for this exact generated ROM, not relocatable objects.

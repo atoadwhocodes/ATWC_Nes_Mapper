@@ -1,7 +1,7 @@
 # FarmSim: connected valley expansion
 Daniel J. Roberge / aToadWhoCodes
 
-Status: design and acceptance plan. The accompanying 0031a ROM fixes regional entry only. The districts, routines, resources, mine and fishing below are not implemented yet.
+Status: 0032 implements the banked-code foundation, two town districts, three interiors and two residents with simple day/evening schedules. The broader schedule/pathfinding design, services, resources, mine and fishing below remain planned.
 
 ## Why the world feels small
 The current regional map is a straight 512-pixel corridor with three destinations. Local travel is mostly a single east/west chain. Four stationary NPCs and one-purpose rooms provide little reason to linger or revisit. More decorative tiles alone cannot fix this. The next world needs branching geography, destinations with services, changing activity and resources that connect the daily loop.
@@ -23,7 +23,7 @@ Keep compact regional travel between major regions. Local zones are larger inter
 | Woodland | Forest edge, deep woods, lumber clearing, lake shore | Wood, forage, seasonal paths, lake fishing |
 | Highlands | Quarry approach, mine entrance, mine floors | Stone, copper, iron and tool progression |
 
-Town adjacency proposal: trail enters Market Square from west; Civic Quarter is north; Riverside is east; Forest Edge is east of Riverside. Civic Quarter also connects to Riverside, creating a walking loop. Market Square contains general store, smith and request board. Civic Quarter contains town hall and clinic. Riverside contains tavern, homes and fishing landing. Each district starts as one 512x240 local map. Revisit dimensions after actual walking tests.
+Town adjacency proposal: trail enters Market Square from west; Civic Quarter is north; Riverside is east; Forest Edge is south of Riverside. Civic Quarter also connects to Riverside, creating a walking loop. Market Square contains general store, smith and request board. Civic Quarter contains town hall and clinic. Riverside contains tavern, homes and fishing landing. Each district starts as one 512x240 local map. Revisit dimensions after actual walking tests.
 
 Forest adjacency: Forest Edge north to Deep Woods, east to Lake Shore; Deep Woods west to Lumber Clearing, north to Quarry Approach. Quarry enters Mine. Retain mandatory exits that can never be blocked by resource regrowth.
 
@@ -33,7 +33,7 @@ Every doorway must have a visible opening, a matching interaction rectangle, saf
 1. Move main-thread gameplay modules out of the almost-full fixed bank. Keep reset, interrupt entry, NMI/IRQ handlers, mapper wrappers and required interrupt data fixed. Use existing switchable PRG capacity before increasing ROM size.
 2. Define stable IDs for scenes, entities, items and resource objects. Scene records own graphics banks, palette family, collision, exits, doors and entity lists. Shared mutable state must not depend on whichever WRAM bank happens to be visible.
 3. Add the Market/Civic/Riverside loop with real entrances for tavern, clinic and town hall. Preserve seed shop, smith and existing routes. Services initially remain small and explicit: tavern conversation gathering, clinic information until stamina exists, hall request board.
-4. Add two walking residents using authored waypoints and three day phases. Prove the schedule system before adding a whole population.
+4. Add two walking residents using authored horizontal lanes and two day phases. Prove the schedule system before adding a whole population.
 5. Use Tiny Wonder art as the local visual baseline. Match roof sizes, character scale and ground colors. Make interiors identifiable with counters, beds, tables, chairs, shelves and lamps. Keep WILLIBAB miniature art confined to regional travel.
 
 Acceptance: walk the full town loop in both directions, enter/exit every building, follow two NPCs through day phases, speak at path corners, enter while NPCs change zones, reload after a transfer, verify no overlap/softlock and preserve all existing farming state. Ensure no dialogue opens a purchase by accident.
