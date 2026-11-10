@@ -1,0 +1,14 @@
+{
+  "source": "Willibab / Monsteretrope, WILLIBAB_OVERWORLD",
+  "license": "CC BY (version unspecified in supplied README)",
+  "unique_bg_tiles": 51,
+  "tile_capacity": 160,
+  "collision": "0030 unchanged",
+  "local_chr": "first 65536 bytes unchanged",
+  "adaptations": [
+    "NES palette reduction",
+    "tile selection",
+    "new coastline connectors",
+    "regional map composition"
+  ]
+}

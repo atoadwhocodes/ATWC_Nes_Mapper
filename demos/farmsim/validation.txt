@@ -1,4 +1,4 @@
-ROM SHA256 343110486d08a9d9375ac56ef8b357100656f302df56670012662c4ae7607aa0
+ROM SHA256 46f359bb83909e99fe4b6119356e9375160f34330f9fe727af703b5e46494b9f
 
 verify_overworld.py
 {
@@ -14,20 +14,20 @@ verify_overworld.py
     "partial-load model replay",
     "night/local CHR restoration"
   ],
-  "max_nmi_cycles": 2035,
-  "max_main_cycles": 8458,
+  "max_nmi_cycles": 2034,
+  "max_main_cycles": 8544,
   "limits": "Modeled CPU/PPU I/O; full Mesen acceptance pending."
 }
 
 verify_vertical.py
-PASS 50 vertical entry widths, walking returns, dash, closed boundaries, four-way arrival escape, mid-load replay, inventory/crop persistence and bank 4 scenes; cycles 1943 7909
+PASS 50 vertical entry widths, walking returns, dash, closed boundaries, four-way arrival escape, mid-load replay, inventory/crop persistence and bank 4 scenes; cycles 1943 7942
 
 verify_audio.py
 {
   "result": "PASS",
   "effects": 9,
   "max_modeled_nmi_cycles_including_dma": 1983,
-  "max_modeled_main_cycles": 7908,
+  "max_modeled_main_cycles": 7940,
   "prg_bytes": 65536,
   "checks": [
     "effect expiry and silence",
@@ -42,14 +42,14 @@ verify_audio.py
 }
 
 verify_graphics.py
-PASS: 64 KiB CHR/header; farmer/sky banks and moon preserved; NPC and animal pages replaced; town day/dusk CHR and stone palette; shop/trail restoration
+PASS: 72 KiB CHR/header; farmer/sky banks and moon preserved; NPC and animal pages replaced; town day/dusk CHR and stone palette; shop/trail restoration
 
 verify_world.py
 {
   "result": "PASS",
   "frames": 664,
   "max_nmi_cycles_including_dma": 2000,
-  "max_main_cycles": 8084,
+  "max_main_cycles": 8118,
   "checks": [
     "eight maps; directed routes checked separately",
     "NPC talk priority and held A",
@@ -70,17 +70,17 @@ verify_west.py
 PASS: west gate, barn doorway/notice/return, public crop protection, farm persistence, dusk banks, indoor merchants and shop return
 
 verify_animals.py
-PASS: two animation poses; <=8 sprites/scanline; feed once/day; milk/egg after sleep; no unfed output; no held-A duplication; 99-item cap; feed bin; barn collision; model snapshot replay. Cycles 2000 13679
+PASS: two animation poses; <=8 sprites/scanline; feed once/day; milk/egg after sleep; no unfed output; no held-A duplication; 99-item cap; feed bin; barn collision; model snapshot replay. Cycles 2000 13714
 
 verify_routes.py
-PASS 240 route/entry cases, four-direction escape, 2922 road movement frames, closed boundaries, mid-load model snapshot replay; cycles 1943 8057
+PASS 240 route/entry cases, four-direction escape, 2922 road movement frames, closed boundaries, mid-load model snapshot replay; cycles 1943 8091
 
 verify_roundtrip.py
 {
   "result": "PASS",
   "frames": 667,
   "max_nmi_cycles_including_dma": 2000,
-  "max_main_cycles": 13742,
+  "max_main_cycles": 13744,
   "checks": [
     "edge exits both directions",
     "watered versus dry crops across inactive fields",
@@ -92,7 +92,7 @@ verify_roundtrip.py
 }
 
 verify_bounds.py
-PASS bounded camera, sprite projection, both exits, crop/water persistence, snapshot replay; cycles 1943 8087
+PASS bounded camera, sprite projection, both exits, crop/water persistence, snapshot replay; cycles 1943 8088
 
 verify_roads.py
 PASS: all 960 outdoor collision cells; all four movement directions at six cleared tree locations
@@ -123,4 +123,6 @@ PASS sky rows, black load, house/shop entry, plant/water/sleep, dusk moon; NMI 2
 tests/lighting.py
 PASS: town route and NPC dialogue; actual mapper plus emitted ROM, dusk watering, field round trip, bed, morning, active pages and raster IRQ.
 
-Final scoped overworld recheck: landmark headings and no-post sentinel guard, planted/watered crop persistence, populated inventory, all destinations and held input. verify_overworld.py PASS; see overworld_validation.json. Local gameplay logic unchanged by these final refinements.
+verify_world_art.py
+PASS: region day/dusk/night palettes and local palette restoration
+PASS: first 65536 CHR bytes and all selected collision assets identical to 0030.

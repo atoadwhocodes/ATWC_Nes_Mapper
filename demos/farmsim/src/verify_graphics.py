@@ -2,7 +2,7 @@
 from pathlib import Path
 import json,hashlib
 P=Path(__file__).resolve().parent
-rom=(P/'atwc1_0030_overworld_dev4095.nes').read_bytes()
+rom=(P/'atwc1_0031_worldart_dev4095.nes').read_bytes()
 assert rom[:4]==b'NES\x1a' and rom[4]==4 and rom[5]==9
 assert len(rom)==16+rom[4]*16384+rom[5]*8192
 old=(P/'baseline_chr.bin').read_bytes();new=(P/'fixed_chr.bin').read_bytes()

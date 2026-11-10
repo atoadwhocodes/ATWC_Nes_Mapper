@@ -3,7 +3,7 @@ from pathlib import Path
 import json,copy
 from py65.devices.mpu6502 import MPU
 P=Path(__file__).resolve().parent
-rom=(P/'atwc1_0030_overworld_dev4095.nes').read_bytes();sym=json.loads((P/'symbols.json').read_text());ram=json.loads((P/'ram.json').read_text());Z=ram['zero_page'];art=json.loads((P/'art.json').read_text())
+rom=(P/'atwc1_0031_worldart_dev4095.nes').read_bytes();sym=json.loads((P/'symbols.json').read_text());ram=json.loads((P/'ram.json').read_text());Z=ram['zero_page'];art=json.loads((P/'art.json').read_text())
 class Bus:
  def __init__(self):
   self.wram=[bytearray(8192) for _ in range(128)];self.wram_bank=0;self.wram_write=False;self.prg=[0,3,2,7];self.apu_writes=[];self.prg_writes=[];self.irq_pending=False;self.irq_inframe=False;self.identity=(0x4d,0x58);self.mem=bytearray(65536);self.mem[0x8000:]=rom[16:32784];self.ppu=bytearray(16384);self.pending={};self.banks=list(range(16));self.low=list(range(16));self.address=0;self.toggle=0;self.pad=0;self.padindex=0;self.dmas=0;self.scroll=[];self.oam=bytes(256);self.in_nmi=False;self.booting=True
