@@ -22,3 +22,5 @@ inventory, safe spawns and held input. Full Mesen PPU, audio and actual save-sta
 acceptance remain pending. GitHub CI tests the mapper reference only.
 
 0031 adds WILLIBAB miniature terrain/buildings, original coastal connectors, road shoulders and region-only day/dusk/night palettes. Local CHR and collisions remain unchanged. See PACK_REVIEW.md. All scoped tests and focused palette restoration checks passed; Mesen acceptance pending.
+
+0031a fixes walk-up entry at landmark collision edges. Labels and A actions now share a 48-pixel-wide proximity zone. Three walked approaches and 87 boundary cases pass, plus regional and palette regression tests. See EXPANSION_PLAN.md for planned town districts, NPC routines, tools/resources, mine and fishing. The expansion is not implemented yet. Use the ATWC1_0031a_EntryFix package for the corrected ROM.

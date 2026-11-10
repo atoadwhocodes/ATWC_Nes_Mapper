@@ -3,12 +3,12 @@
   "mapper": 4095,
   "requires": "ATWC-1 0018 or later",
   "mirroring": "vertical",
-  "code_bytes": 7390,
+  "code_bytes": 7404,
   "prg_bytes": 65536,
   "main_table_bytes": 5563,
-  "fixed_free_bytes": 268,
+  "fixed_free_bytes": 254,
   "audio": "original pulse/noise SFX; no music yet",
-  "payload_bytes": 41338,
+  "payload_bytes": 41352,
   "rom_bytes": 139280,
   "data_bytes": 5329,
   "fixed_data_bytes": 528,
@@ -38,5 +38,5 @@
     "seed_buy_price": 2,
     "wallet_max": 999
   },
-  "sha256": "46f359bb83909e99fe4b6119356e9375160f34330f9fe727af703b5e46494b9f"
+  "sha256": "ba60e380f1a1f0ebbf17c67266aef8dd311406ba3eac4d3188c552b31c96bb71"
 }
