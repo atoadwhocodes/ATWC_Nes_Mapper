@@ -87,6 +87,17 @@
       "scene": 11,
       "wram": 1,
       "farmable": false
+    },
+    {
+      "id": 8,
+      "name": "Regional Overworld",
+      "west": null,
+      "east": null,
+      "north": null,
+      "south": null,
+      "scene": 12,
+      "wram": 1,
+      "farmable": false
     }
   ],
   "npcs": [
@@ -207,5 +218,29 @@
     "arrival_from_south_y": 216,
     "arrival_from_north_y": 92,
     "transition": "black load"
+  },
+  "overworld": {
+    "posts": {
+      "farm": [
+        28,
+        7
+      ],
+      "town": [
+        16,
+        7
+      ],
+      "forest": [
+        14,
+        7
+      ]
+    },
+    "destinations": [
+      0,
+      3,
+      4
+    ],
+    "entry": "face map post and press A",
+    "exit": "A at a destination; B returns to origin",
+    "time": "paused while on regional map"
   }
 }

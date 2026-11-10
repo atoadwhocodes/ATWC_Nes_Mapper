@@ -1,8 +1,8 @@
 {
   "result": "PASS",
   "frames": 664,
-  "max_nmi_cycles_including_dma": 1992,
-  "max_main_cycles": 8081,
+  "max_nmi_cycles_including_dma": 2000,
+  "max_main_cycles": 8084,
   "checks": [
     "eight maps; directed routes checked separately",
     "NPC talk priority and held A",
