@@ -1,0 +1,17 @@
+{
+  "result": "PASS",
+  "frames": 664,
+  "max_nmi_cycles_including_dma": 1992,
+  "max_main_cycles": 8081,
+  "checks": [
+    "eight maps; directed routes checked separately",
+    "NPC talk priority and held A",
+    "merchant purchase and town shop return",
+    "blacksmith/resident close without purchase",
+    "public areas cannot mutate crop records",
+    "3840 collision cells match assets",
+    "crop persistence across town round trip",
+    "night CHR and moon"
+  ],
+  "limitations": "Modeled I/O, not full PPU or actual Mesen save-state testing"
+}

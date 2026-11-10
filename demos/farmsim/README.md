@@ -1,25 +1,21 @@
-# FarmSim 0028 Sound Foundation
+# FarmSim 0029 North South and Terrain Polish
 
-This directory tracks original Python emitter/game/tool source, build metadata,
-and verification reports. Third-party images, converted CHR, nametable binaries,
-ROMs, and pack archives are deliberately not checked in.
+Adds North Pasture and South Field via the east-side farm avenue (world X432).
+Uses existing black scene loads. Two new exploration areas, not new farmable WRAM
+banks. Scrolling transitions and the future barnyard/pasture connection are deferred.
 
-For now, build from the separately supplied ATWC1_0028_SoundFoundation package.
-The source directory in this repository alone is not a standalone build: it
-requires the package's converted asset files and test fixtures beside build.py.
-Do not claim CI builds or validates the full game; repository CI currently tests
-only the standalone mapper reference. The included validation report was produced
-locally against the packaged assets.
+Graphics: original sparse grass, dirt pebbles, larger town paving and broad interior
+planks. Pack buildings/actors, doors, sky and parallax remain. Nine 0028 SFX carry over.
 
-Run `python build.py`, then `python validate.py` with py65, Pillow and g++ installed.
-Run the ROM in a Mesen build with ATWC-1 development mapper 4095 support. Cold-open
-this ROM; old save states use a different memory layout.
+Build from the separately supplied ATWC1_0029_NorthSouth package: public sources
+exclude third-party assets, converted CHR, nametables and ROM binaries. This source
+snapshot alone is not a standalone game build. Run graphics_polish.py,
+north_south_assets.py, build.py, then validate.py. Requires py65, Pillow and g++.
 
-Changes: 64 KiB PRG; bank 3 mainline tables; bank 7 fixed code/vectors; nine original
-pulse/noise effects. Palette upload is deferred during streaming to keep the
-combined audio/graphics work within the modeled NTSC vblank budget. SFX own pulse
-1/noise; music and expansion audio are not implemented. Uploaded WAVs have not
-been converted. Existing graphics, NPCs, animals and visible doors carry forward.
+Local suite: 50 vertical entry cases plus 240 horizontal cases, dash/return/escape,
+mid-load model replay, 3840 collision cells, crops/animals, SFX and mapper API checks.
+Final graphics bytes are restricted to declared terrain/floor ranges. Full Mesen
+visual/audio/save-state acceptance is pending. CI tests the mapper reference only.
 
-See the package README for controls and manual acceptance steps. Full PPU timing,
-audible quality and actual emulator save states still need Mesen acceptance.
+Bank 4 holds the new maps; bank 3 now holds all outdoor collision tables. ABI and
+4095 development identifier unchanged. Cold-open the ROM without an old save state.
