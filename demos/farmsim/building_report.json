@@ -1,0 +1,109 @@
+{
+  "sources": [
+    "Tiny Wonder Farm",
+    "Willibab / Monsteretrope 8-bit town sheet"
+  ],
+  "buildings": [
+    {
+      "area": "town",
+      "kind": "store",
+      "left": 7,
+      "top": 4,
+      "width": 6,
+      "height": 4,
+      "door": [
+        10,
+        7
+      ],
+      "pixel_sha256": "bf4bcd02ee7440b2b1d87e4e6a4baa9ca28938138a5bb0679fc95cdfa9ebf91b"
+    },
+    {
+      "area": "town",
+      "kind": "smith",
+      "left": 19,
+      "top": 4,
+      "width": 6,
+      "height": 4,
+      "door": [
+        22,
+        7
+      ],
+      "pixel_sha256": "c72da32ff4fc64a7140af049027a33e100de58145657c8e82b899cf3553309e2"
+    },
+    {
+      "area": "civic",
+      "kind": "hall",
+      "left": 7,
+      "top": 4,
+      "width": 6,
+      "height": 4,
+      "door": [
+        10,
+        7
+      ],
+      "pixel_sha256": "dab0c21efa246da5d73f437a4615b94bfea85f64239e57855184e86e426a2aa8"
+    },
+    {
+      "area": "civic",
+      "kind": "clinic",
+      "left": 19,
+      "top": 4,
+      "width": 6,
+      "height": 4,
+      "door": [
+        22,
+        7
+      ],
+      "pixel_sha256": "88041188e641ee87a09b09e7c589fc377339929c22d079cdefa2ec8870b2ad01"
+    },
+    {
+      "area": "riverside",
+      "kind": "tavern",
+      "left": 7,
+      "top": 4,
+      "width": 6,
+      "height": 4,
+      "door": [
+        10,
+        7
+      ],
+      "pixel_sha256": "5d8ac2c83fc7a9943c99ffc6c8365d1bb3f87a7a7d9424dfc65aff95f09dc16a"
+    }
+  ],
+  "allocation": {
+    "town": {
+      "tiles": 78,
+      "remaining": 34,
+      "bases": [
+        64,
+        72
+      ]
+    },
+    "civic": {
+      "tiles": 61,
+      "remaining": 45,
+      "bases": [
+        144,
+        152
+      ]
+    },
+    "riverside": {
+      "tiles": 40,
+      "remaining": 67,
+      "bases": [
+        160,
+        168
+      ]
+    },
+    "interiors": {
+      "new_tiles": 18,
+      "remaining": 87
+    }
+  },
+  "chr_bytes": 90112,
+  "collision_changed": false,
+  "source_sha256": {
+    "spring and summer objects.png": "ca2bf5de4b02c1697a085b0c06ce8e39d15327cfc2950e8a29b6f7c82a2afd20",
+    "TOWNS_ALL_1x.png": "a6bc89ed6b7095011ef2d4231bd78a30963495475b2f67b32c4f57359c0c500c"
+  }
+}

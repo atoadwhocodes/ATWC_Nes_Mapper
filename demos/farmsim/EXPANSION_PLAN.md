@@ -1,7 +1,7 @@
 # FarmSim: connected valley expansion
 Daniel J. Roberge / aToadWhoCodes
 
-Status: 0032 implements the banked-code foundation, two town districts, three interiors and two residents with simple day/evening schedules. The broader schedule/pathfinding design, services, resources, mine and fishing below remain planned.
+Status: 0033 is the building/palette pass, inserted before tools and resources. 0032 implements the banked-code foundation, two town districts, three interiors and two residents with simple day/evening schedules. The broader schedule/pathfinding design, services, resources, mine and fishing below remain planned.
 
 ## Why the world feels small
 The current regional map is a straight 512-pixel corridor with three destinations. Local travel is mostly a single east/west chain. Four stationary NPCs and one-purpose rooms provide little reason to linger or revisit. More decorative tiles alone cannot fix this. The next world needs branching geography, destinations with services, changing activity and resources that connect the daily loop.
@@ -45,7 +45,7 @@ Visible actors walk collision-checked waypoints. Talking pauses movement and tur
 
 Initial residents: retain Fern, Bram, Mira and Pip; add tavern keeper, clinician and town clerk only as their rooms become functional. Build daily variation before writing large dialogue volume.
 
-## 0033: tools, resources and persistence
+## After 0033 graphics: tools, resources and persistence
 Tool roster: hoe, watering can, seed selection, axe, pickaxe, sickle and fishing rod. A remains contextual interaction/tool use; B cycles the quick tool selection; double-tap dash remains. Inventory details belong in a menu rather than an ever-longer B cycle.
 
 Resource objects own persistent IDs, area, tile position, type, remaining hits and regrowth day. Place cuttable trees on farm margins, west field, meadow and woodland. Reserve path tiles against spawning. Decorative forest canopy is visually distinct from harvestable trunks. Tree -> stump -> cleared ground; remove collision only when the relevant state changes and award wood exactly once. Rocks and ore use the same object framework with different tools/drops. Grass cut by sickle feeds fiber/fodder progression.

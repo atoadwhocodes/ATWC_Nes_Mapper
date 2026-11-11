@@ -1,4 +1,7 @@
-ROM SHA256 76bed57249b3bf782a416b3526b269a0d0bd03d88c02b12d5cec4500089cbf6e
+ROM SHA256 65598145c8f97db3347f14d984013a93f2e758f274a32405e53fb52575b9c5df
+
+verify_buildings.py
+PASS: 5 distinct facades; aligned material attributes; 15 day/dusk/night door round trips; Riverside CHR restoration; unchanged actor/sky/overworld pages
 
 verify_town_life.py
 {
@@ -77,7 +80,7 @@ verify_audio.py
 }
 
 verify_graphics.py
-PASS: 80 KiB CHR/header; farmer/sky banks and moon preserved; NPC and animal pages replaced; town day/dusk CHR and stone palette; shop/trail restoration
+PASS: 88 KiB CHR/header; farmer/sky banks and moon preserved; NPC and animal pages replaced; town day/dusk CHR and stone palette; shop/trail restoration
 
 verify_world.py
 {
@@ -158,19 +161,9 @@ PASS sky rows, black load, house/shop entry, plant/water/sleep, dusk moon; NMI 2
 tests/lighting.py
 PASS: town route and NPC dialogue; actual mapper plus emitted ROM, dusk watering, field round trip, bed, morning, active pages and raster IRQ.
 
-Final district sign CHR allocation correction: verify_town_life.py rerun passed; ROM-derived preview visually checked.
-{
-  "result": "PASS",
-  "checks": [
-    "both directions of market/civic/riverside/forest loop",
-    "three doors and exact returns",
-    "service counter dialogue",
-    "two moving residents",
-    "dialogue pauses walking",
-    "evening tavern gathering",
-    "bank restoration"
-  ],
-  "max_main_cycles": 8832,
-  "max_nmi_cycles": 2027,
-  "limits": "Modeled I/O; full Mesen acceptance pending"
-}
+Final barnyard paving correction: focused building and west tests rerun.
+PASS: 5 distinct facades; aligned material attributes; 15 day/dusk/night door round trips; Riverside CHR restoration; unchanged actor/sky/overworld pages
+PASS: west gate, barn doorway/notice/return, public crop protection, farm persistence, dusk banks, indoor merchants and shop return
+
+Final ROM SHA256 4c630c93edd003a355e9b7b6cd1deaf517584679c0f78e246c2b27bc3f1b728b
+All 14 collision files are byte-identical to 0032.

@@ -1,4 +1,4 @@
-"""ATWC-1 Town Life 0032. Deterministic 6502 ROM builder; no external assembler."""
+"""ATWC-1 Buildings 0033. Deterministic 6502 ROM builder; no external assembler."""
 from pathlib import Path
 import json,hashlib
 from assembler import Asm,OPS
@@ -477,14 +477,14 @@ main_blob('animal_names',[32+chars.index(c) for c in 'COW     CHICKEN ']);main_b
 main_blob('roomcollision',(P/'room_collision.bin').read_bytes()+(P/'barn_collision.bin').read_bytes()+(P/'town_rooms_collision.bin').read_bytes())
 main_blob('roomrowlo',[(a.labels['roomcollision']+y*16)&255 for y in range(90)])
 main_blob('roomrowhi',[(a.labels['roomcollision']+y*16)>>8 for y in range(90)])
-main_blob('room_collision_offset',[0,0,15,15,30,45,60,75]);main_blob('room_scene',[0,1,2,8,9,15,16,17]);main_blob('room_dialog',[0,4,3,6,9,13,14,15]);main_blob('initial_oam',oam);fixed_blob('area_chr_offset',[0,0,0,32,48,64,0,0,96,112,112]);fixed_blob('night_sky',[48]+[48]*25+[49,50,51]);main_blob('scenehigh',[0x80,0x80,0x84,0x88,0x90,0x98,0x88,0x90,0x98,0x9c,0x80,0x88,0x90,0x80,0x88,0x90,0x94,0x98])
+main_blob('room_collision_offset',[0,0,15,15,30,45,60,75]);main_blob('room_scene',[0,1,2,8,9,15,16,17]);main_blob('room_dialog',[0,4,3,6,9,13,14,15]);main_blob('initial_oam',oam);fixed_blob('area_chr_offset',[0,0,0,32,48,64,0,0,96,112,128]);fixed_blob('night_sky',[48]+[48]*25+[49,50,51]);main_blob('scenehigh',[0x80,0x80,0x84,0x88,0x90,0x98,0x88,0x90,0x98,0x9c,0x80,0x88,0x90,0x80,0x88,0x90,0x94,0x98])
 main_blob('scene_bank_lo',[0,1,1,0,0,0,1,1,1,1,4,4,4,5,5,5,5,5]);main_blob('scene_bank_hi',[0]*18);main_blob('scene_chunk_mask',[31,15,15,31,31,31,31,31,15,15,31,31,31,31,31,15,15,15])
 town_palettes=[];west_palettes=[];interior_palettes=[]
 for phase,(original,stone) in enumerate(((palette,[0x09,0x00,0x10,0x30]),(dusk,[0x0b,0x0f,0x00,0x10]),(night,[0x0f,0x0f,0x00,0x10]))):
  town=original[:];town[12:16]=stone
- town[4:8]=[original[0],0x0f,0x16 if phase==0 else 0x06,0x37 if phase==0 else 0x27]
+ town[4:8]=[original[0],0x0f,0x17 if phase==0 else 0x07,0x37 if phase==0 else 0x27]
  town_palettes.extend(town)
- west=original[:];west[12:16]=[original[0],0x0f,0x16 if phase==0 else 0x06,0x27 if phase==0 else 0x17];west_palettes.extend(west)
+ west=original[:];west[4:8]=[original[0],0x0f,0x16 if phase==0 else 0x06,0x37 if phase==0 else 0x27];west[12:16]=stone;west_palettes.extend(west)
  indoor=original[:];indoor[:16]=[0x07,0x0f,0x19,0x29, 0x07,0x07,0x17,0x27, 0x07,0x0f,0x16,0x37, 0x07,0x0f,0x00,0x10]
  interior_palettes.extend(indoor)
 region_palettes=[]
@@ -504,9 +504,9 @@ prg[49152:49152+len(bank_bytes)]=bank_bytes
 prg[-6:]=b''.join(a.labels[n].to_bytes(2,'little') for n in ('nmi','reset','irq'))
 (P/'chr.bin').write_bytes((P/'fixed_chr.bin').read_bytes())
 rom=b'NES\x1a'+bytes([4,len((P/'chr.bin').read_bytes())//8192,0xf1,0xf8,0x0f,0,14,0,0,0,0,0])+prg+(P/'chr.bin').read_bytes()
-(P/'atwc1_0032_townlife_dev4095.nes').write_bytes(rom)
+(P/'atwc1_0033_buildings_dev4095.nes').write_bytes(rom)
 (P/'code_listing.s').write_text(src+'\n; PRG bank 6 at $8000\n'+bank_src+'\n; Binary data appended by build.py\n');(P/'listing.txt').write_text(lst+'\n; PRG bank 6\n'+bank_lst);(P/'symbols.json').write_text(json.dumps(a.labels,indent=2));(P/'ram.json').write_text(json.dumps({'zero_page':Z,'states':STATES,'timers':TIMERS,'dirty':DIRTY,'attributes':ATTRS,'field_banks':[0,1]},indent=2));(P/'palette.json').write_text(json.dumps(palette));(P/'initial_oam.bin').write_bytes(oam)
-(P/'manifest.json').write_text(json.dumps({'creator':'Daniel J. Roberge','mapper':4095,'requires':'ATWC-1 0018 or later','mirroring':'vertical','banked_code_bytes':len(bank_bytes),'banked_exports':bank_exports,'code_bytes':len(code),'prg_bytes':len(prg),'main_table_bytes':len(main_tables),'fixed_free_bytes':8192-6-len(code)-len(fixed),'audio':'original pulse/noise SFX; no music yet','payload_bytes':len(payload)+len(bank_bytes)+7168,'rom_bytes':len(rom),'data_bytes':len(data),'fixed_data_bytes':len(fixed),'prg_layout':['farm, meadow, trail and town nametables','house, shops, forest, west barnyard and barn interior','gameplay metadata','main-thread outdoor/room collision tables and initial OAM','north pasture, south field and regional overworld','town districts and three interiors','banked movement and drawing','fixed code, audio, NMI palettes'],'outdoor_areas':len(areas),'npcs':6,'walking_residents':2,'animals':2,'overworld_destinations':3,'graphics_baseline':'0032 Tiny Wonder civic/riverside districts and furnished service rooms; 0031 WILLIBAB regional terrain and destinations; 0029 quieter grass and dirt, larger town paving, broad interior planks; pack actors/buildings retained','chr_bytes':len((P/'chr.bin').read_bytes()),'farmable_tiles_per_area':N,'farmable_tiles':N*2,'economy':{'crop_sell_price':SELL_PRICE,'egg_sell_price':3,'milk_sell_price':8,'demo_feed_cost':0,'seed_buy_price':SEED_PRICE,'wallet_max':MAX_GOLD},'sha256':hashlib.sha256(rom).hexdigest()},indent=2))
+(P/'manifest.json').write_text(json.dumps({'creator':'Daniel J. Roberge','mapper':4095,'requires':'ATWC-1 0018 or later','mirroring':'vertical','banked_code_bytes':len(bank_bytes),'banked_exports':bank_exports,'code_bytes':len(code),'prg_bytes':len(prg),'main_table_bytes':len(main_tables),'fixed_free_bytes':8192-6-len(code)-len(fixed),'audio':'original pulse/noise SFX; no music yet','payload_bytes':len(payload)+len(bank_bytes)+7168,'rom_bytes':len(rom),'data_bytes':len(data),'fixed_data_bytes':len(fixed),'prg_layout':['farm, meadow, trail and town nametables','house, shops, forest, west barnyard and barn interior','gameplay metadata','main-thread outdoor/room collision tables and initial OAM','north pasture, south field and regional overworld','town districts and three interiors','banked movement and drawing','fixed code, audio, NMI palettes'],'outdoor_areas':len(areas),'npcs':6,'walking_residents':2,'animals':2,'overworld_destinations':3,'graphics_baseline':'0033 distinct material-aligned buildings, Tiny Wonder openings/furniture and separate Riverside CHR; 0032 Tiny Wonder civic/riverside districts and furnished service rooms; 0031 WILLIBAB regional terrain and destinations; 0029 quieter grass and dirt, larger town paving, broad interior planks; pack actors/buildings retained','chr_bytes':len((P/'chr.bin').read_bytes()),'farmable_tiles_per_area':N,'farmable_tiles':N*2,'economy':{'crop_sell_price':SELL_PRICE,'egg_sell_price':3,'milk_sell_price':8,'demo_feed_cost':0,'seed_buy_price':SEED_PRICE,'wallet_max':MAX_GOLD},'sha256':hashlib.sha256(rom).hexdigest()},indent=2))
 print('Built farming ROM:',len(rom),'bytes;',len(code),'code;',len(payload),'total code/data bytes')
 
 # Address-binding include for this exact generated ROM, not relocatable objects.

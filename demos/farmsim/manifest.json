@@ -29,7 +29,7 @@
   "fixed_free_bytes": 2151,
   "audio": "original pulse/noise SFX; no music yet",
   "payload_bytes": 52300,
-  "rom_bytes": 147472,
+  "rom_bytes": 155664,
   "data_bytes": 5755,
   "fixed_data_bytes": 530,
   "prg_layout": [
@@ -47,8 +47,8 @@
   "walking_residents": 2,
   "animals": 2,
   "overworld_destinations": 3,
-  "graphics_baseline": "0032 Tiny Wonder civic/riverside districts and furnished service rooms; 0031 WILLIBAB regional terrain and destinations; 0029 quieter grass and dirt, larger town paving, broad interior planks; pack actors/buildings retained",
-  "chr_bytes": 81920,
+  "graphics_baseline": "0033 distinct material-aligned buildings, Tiny Wonder openings/furniture and separate Riverside CHR; 0032 Tiny Wonder civic/riverside districts and furnished service rooms; 0031 WILLIBAB regional terrain and destinations; 0029 quieter grass and dirt, larger town paving, broad interior planks; pack actors/buildings retained",
+  "chr_bytes": 90112,
   "farmable_tiles_per_area": 201,
   "farmable_tiles": 402,
   "economy": {
@@ -59,5 +59,5 @@
     "seed_buy_price": 2,
     "wallet_max": 999
   },
-  "sha256": "76bed57249b3bf782a416b3526b269a0d0bd03d88c02b12d5cec4500089cbf6e"
+  "sha256": "4c630c93edd003a355e9b7b6cd1deaf517584679c0f78e246c2b27bc3f1b728b"
 }
