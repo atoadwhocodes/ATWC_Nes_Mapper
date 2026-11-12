@@ -1,0 +1,17 @@
+{
+  "baseline": {
+    "distinct_encoded_tiles": 123,
+    "chr_bytes": 8192,
+    "rgb_squared_error": 140029404,
+    "code_and_data_bytes": 2413,
+    "rom_sha256": "17b63c429aa6d67af6e1b736a81441efd4eadddf4b26e0b2ff1155692d530b9c"
+  },
+  "extended": {
+    "distinct_encoded_tiles": 122,
+    "chr_bytes": 8192,
+    "rgb_squared_error": 113401624,
+    "code_and_data_bytes": 2497,
+    "rom_sha256": "6eb9c63e712dc14b94fd682860de737c314a8f721340562d5ae1e7176e47c0cd"
+  },
+  "rgb_error_reduction_percent": 19.015848985545926
+}
