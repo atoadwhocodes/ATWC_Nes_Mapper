@@ -3,7 +3,7 @@ from pathlib import Path
 import json,copy
 from py65.devices.mpu6502 import MPU
 P=Path(__file__).resolve().parent
-rom=(P/'atwc1_0029_north_south_dev4095.nes').read_bytes();sym=json.loads((P/'symbols.json').read_text());ram=json.loads((P/'ram.json').read_text());Z=ram['zero_page'];art=json.loads((P/'art.json').read_text())
+rom=(P/'atwc1_0030_overworld_dev4095.nes').read_bytes();sym=json.loads((P/'symbols.json').read_text());ram=json.loads((P/'ram.json').read_text());Z=ram['zero_page'];art=json.loads((P/'art.json').read_text())
 class Bus:
  def __init__(self):
   self.wram=[bytearray(8192) for _ in range(128)];self.wram_bank=0;self.wram_write=False;self.prg=[0,3,2,7];self.apu_writes=[];self.prg_writes=[];self.irq_pending=False;self.irq_inframe=False;self.identity=(0x4d,0x58);self.mem=bytearray(65536);self.mem[0x8000:]=rom[16:32784];self.ppu=bytearray(16384);self.pending={};self.banks=list(range(16));self.low=list(range(16));self.address=0;self.toggle=0;self.pad=0;self.padindex=0;self.dmas=0;self.scroll=[];self.oam=bytes(256);self.in_nmi=False;self.booting=True
@@ -90,7 +90,7 @@ def frame(pad=0):
  assert get('ready')==0
  for slot,page in b.pending.items():b.banks[slot]=page
  b.pending.clear()
- base=112 if get('room') else (40 if get('paloffset') else 32)+({3:32,4:48,5:64}.get(get('area'),0))
+ base=112 if get('room') else (40 if get('paloffset') else 32)+({3:32,4:48,5:64,8:96}.get(get('area'),0))
  for slot in (1,2,4,5,7):assert b.banks[slot]==base+slot
  if get('raster'):
   assert b.scroll[-2:]==[(get('camlo')+256*get('camhi'))//4,0] and b.mem[0x5760]==63
@@ -100,7 +100,7 @@ def frame(pad=0):
    if cpu.pc==sym['frame_wait']:break
   assert not b.irq_pending and b.mem[0x5760]==0
  assert b.banks[0] in (0,26,27,28,48,49,50,51)
- assert b.banks[6] in (6,22) and b.banks[8] in (8,16,17,18,19,24,25)
+ assert b.banks[6] in (6,22) and b.banks[8] in (8,16,17,18,19,24,25,128)
  assert all(b.banks[i]==i for i in range(16) if i not in (0,1,2,4,5,6,7,8))
  assert b.scroll[-2:]==[get('camlo'),0]
  assert b.mem[0x2000]==(0x88|get('camhi'))
