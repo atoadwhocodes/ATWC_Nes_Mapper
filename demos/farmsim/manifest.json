@@ -3,15 +3,15 @@
   "mapper": 4095,
   "requires": "ATWC-1 0018 or later",
   "mirroring": "vertical",
-  "code_bytes": 7381,
+  "code_bytes": 7404,
   "prg_bytes": 65536,
   "main_table_bytes": 5563,
-  "fixed_free_bytes": 375,
+  "fixed_free_bytes": 254,
   "audio": "original pulse/noise SFX; no music yet",
-  "payload_bytes": 41231,
+  "payload_bytes": 41352,
   "rom_bytes": 139280,
   "data_bytes": 5329,
-  "fixed_data_bytes": 430,
+  "fixed_data_bytes": 528,
   "prg_layout": [
     "farm, meadow, trail and town nametables",
     "house, shops, forest, west barnyard and barn interior",
@@ -26,7 +26,7 @@
   "npcs": 4,
   "animals": 2,
   "overworld_destinations": 3,
-  "graphics_baseline": "0030 miniature region and farmer; 0029 quieter grass and dirt, larger town paving, broad interior planks; pack actors/buildings retained",
+  "graphics_baseline": "0031 WILLIBAB regional terrain and destinations; 0029 quieter grass and dirt, larger town paving, broad interior planks; pack actors/buildings retained",
   "chr_bytes": 73728,
   "farmable_tiles_per_area": 201,
   "farmable_tiles": 402,
@@ -38,5 +38,5 @@
     "seed_buy_price": 2,
     "wallet_max": 999
   },
-  "sha256": "f5b2f7a3aba057ae1161fe36adb00ffc96ca68ceb3eb9d734f70118ba027e82a"
+  "sha256": "ba60e380f1a1f0ebbf17c67266aef8dd311406ba3eac4d3188c552b31c96bb71"
 }

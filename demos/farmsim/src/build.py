@@ -1,4 +1,4 @@
-"""ATWC-1 Regional Overworld 0030. Deterministic 6502 ROM builder; no external assembler."""
+"""ATWC-1 Regional Overworld 0031. Deterministic 6502 ROM builder; no external assembler."""
 from pathlib import Path
 import json,hashlib
 from assembler import Asm,OPS
@@ -94,7 +94,7 @@ for rowoffset in (0,32):
  o('STA a',0x2007);o('CLC');o('ADC #',1);o('STA a',0x2007)
 o('LDA z',qattrhi);o('STA a',0x2006);o('LDA z',qattrlo);o('STA a',0x2006);o('LDA z',qattrval);o('STA a',0x2007);sv(queue,0)
 l('no_patch');o('LDA z',loading);o('BEQ r','palette_consider');o('JMP a','palette_done');l('palette_consider');o('LDA z',paldirty);o('BEQ r','palette_skip_jump');o('JMP a','palette_upload');l('palette_skip_jump');o('JMP a','palette_done')
-l('palette_upload');pa(0x3f00);o('LDX #',3);o('LDA z',room);o('BNE r','palette_family_ready');o('LDX #',0);o('LDA z',area);o('CMP #',3);o('BNE r','palette_not_town');o('LDX #',1);o('JMP a','palette_family_ready');l('palette_not_town');o('CMP #',5);o('BNE r','palette_family_ready');o('LDX #',2);l('palette_family_ready')
+l('palette_upload');pa(0x3f00);o('LDX #',3);o('LDA z',room);o('BNE r','palette_family_ready');o('LDX #',0);o('LDA z',area);o('CMP #',3);o('BNE r','palette_not_town');o('LDX #',1);o('JMP a','palette_family_ready');l('palette_not_town');o('CMP #',8);o('BNE r','palette_not_region');o('LDX #',4);o('JMP a','palette_family_ready');l('palette_not_region');o('CMP #',5);o('BNE r','palette_family_ready');o('LDX #',2);l('palette_family_ready')
 o('LDA ax','palette_family_lo');o('CLC');o('ADC z',paloffset);o('STA z',nmi_pal_lo);o('LDA ax','palette_family_hi');o('ADC #',0);o('STA z',nmi_pal_hi);o('LDY #',0)
 for i in range(32):o('LDA iy',nmi_pal_lo);o('STA a',0x2007);o('INY')
 sv(paldirty,0);l('palette_done');o('LDA z',loading);o('BEQ r','backdrop_ready');pa(0x3f00);sv(0x2007,0x0f);l('backdrop_ready')
@@ -477,8 +477,11 @@ for phase,(original,stone) in enumerate(((palette,[0x09,0x00,0x10,0x30]),(dusk,[
  west=original[:];west[12:16]=[original[0],0x0f,0x16 if phase==0 else 0x06,0x27 if phase==0 else 0x17];west_palettes.extend(west)
  indoor=original[:];indoor[:16]=[0x07,0x0f,0x19,0x29, 0x07,0x07,0x17,0x27, 0x07,0x0f,0x16,0x37, 0x07,0x0f,0x00,0x10]
  interior_palettes.extend(indoor)
-palbase=a.pc+len(fixed);fixed_blob('day_palettes',palette+dusk+night+town_palettes+west_palettes+interior_palettes)
-fixed_blob('palette_family_lo',[(palbase+i*96)&255 for i in range(4)]);fixed_blob('palette_family_hi',[(palbase+i*96)>>8 for i in range(4)])
+region_palettes=[]
+for original,bg in ((palette,[9,11,26,41,9,7,23,55,9,17,33,49,9,15,16,48]),(dusk,[11,15,11,26,11,15,7,23,11,1,17,33,11,15,0,16]),(night,[15,15,11,26,15,15,7,23,15,15,1,17,15,15,0,16])):
+ region_palettes.extend(bg+original[16:])
+palbase=a.pc+len(fixed);fixed_blob('day_palettes',palette+dusk+night+town_palettes+west_palettes+interior_palettes+region_palettes)
+fixed_blob('palette_family_lo',[(palbase+i*96)&255 for i in range(5)]);fixed_blob('palette_family_hi',[(palbase+i*96)>>8 for i in range(5)])
 (P/'day_palettes.json').write_text(json.dumps([palette,dusk,night]))
 code,src,lst=a.finish();data=b''.join(blobs);payload=code+data+fixed+main_tables+(P/'overworld_nt.bin').read_bytes()+(P/'north_nt.bin').read_bytes()+(P/'south_nt.bin').read_bytes()+nt+meadow+(P/'trail_nt.bin').read_bytes()+(P/'town_nt.bin').read_bytes()+(P/'house_nt.bin').read_bytes()+(P/'shop_nt.bin').read_bytes()+(P/'forest_nt.bin').read_bytes()+(P/'west_nt.bin').read_bytes()+(P/'smith_nt.bin').read_bytes()+(P/'barn_nt.bin').read_bytes();assert len(code)+len(fixed)<0x1ffa and len(data)<=8192,(len(code),len(data))
 prg=bytearray(65536);prg[:len(nt)]=nt;prg[2048:4096]=meadow;prg[4096:6144]=(P/'trail_nt.bin').read_bytes();prg[6144:8192]=(P/'town_nt.bin').read_bytes();prg[8192:10240]=(P/'house_nt.bin').read_bytes()+(P/'shop_nt.bin').read_bytes();prg[10240:12288]=(P/'forest_nt.bin').read_bytes();prg[12288:14336]=(P/'west_nt.bin').read_bytes();prg[14336:15360]=(P/'smith_nt.bin').read_bytes();prg[15360:16384]=(P/'barn_nt.bin').read_bytes();prg[16384:16384+len(data)]=data;prg[24576:24576+len(main_tables)]=main_tables;prg[57344:57344+len(code)+len(fixed)]=code+fixed
@@ -487,9 +490,9 @@ prg[36864:38912]=(P/'overworld_nt.bin').read_bytes()
 prg[-6:]=b''.join(a.labels[n].to_bytes(2,'little') for n in ('nmi','reset','irq'))
 (P/'chr.bin').write_bytes((P/'fixed_chr.bin').read_bytes())
 rom=b'NES\x1a'+bytes([4,len((P/'chr.bin').read_bytes())//8192,0xf1,0xf8,0x0f,0,14,0,0,0,0,0])+prg+(P/'chr.bin').read_bytes()
-(P/'atwc1_0030_overworld_dev4095.nes').write_bytes(rom)
+(P/'atwc1_0031a_entryfix_dev4095.nes').write_bytes(rom)
 (P/'code_listing.s').write_text(src+'\n; Binary data appended by build.py\n');(P/'listing.txt').write_text(lst);(P/'symbols.json').write_text(json.dumps(a.labels,indent=2));(P/'ram.json').write_text(json.dumps({'zero_page':Z,'states':STATES,'timers':TIMERS,'dirty':DIRTY,'attributes':ATTRS,'field_banks':[0,1]},indent=2));(P/'palette.json').write_text(json.dumps(palette));(P/'initial_oam.bin').write_bytes(oam)
-(P/'manifest.json').write_text(json.dumps({'creator':'Daniel J. Roberge','mapper':4095,'requires':'ATWC-1 0018 or later','mirroring':'vertical','code_bytes':len(code),'prg_bytes':len(prg),'main_table_bytes':len(main_tables),'fixed_free_bytes':8192-6-len(code)-len(fixed),'audio':'original pulse/noise SFX; no music yet','payload_bytes':len(payload),'rom_bytes':len(rom),'data_bytes':len(data),'fixed_data_bytes':len(fixed),'prg_layout':['farm, meadow, trail and town nametables','house, shops, forest, west barnyard and barn interior','gameplay metadata','main-thread outdoor/room collision tables and initial OAM','north pasture, south field and regional overworld','reserved','reserved','fixed code, audio, NMI palettes'],'outdoor_areas':len(areas),'npcs':4,'animals':2,'overworld_destinations':3,'graphics_baseline':'0030 miniature region and farmer; 0029 quieter grass and dirt, larger town paving, broad interior planks; pack actors/buildings retained','chr_bytes':len((P/'chr.bin').read_bytes()),'farmable_tiles_per_area':N,'farmable_tiles':N*2,'economy':{'crop_sell_price':SELL_PRICE,'egg_sell_price':3,'milk_sell_price':8,'demo_feed_cost':0,'seed_buy_price':SEED_PRICE,'wallet_max':MAX_GOLD},'sha256':hashlib.sha256(rom).hexdigest()},indent=2))
+(P/'manifest.json').write_text(json.dumps({'creator':'Daniel J. Roberge','mapper':4095,'requires':'ATWC-1 0018 or later','mirroring':'vertical','code_bytes':len(code),'prg_bytes':len(prg),'main_table_bytes':len(main_tables),'fixed_free_bytes':8192-6-len(code)-len(fixed),'audio':'original pulse/noise SFX; no music yet','payload_bytes':len(payload),'rom_bytes':len(rom),'data_bytes':len(data),'fixed_data_bytes':len(fixed),'prg_layout':['farm, meadow, trail and town nametables','house, shops, forest, west barnyard and barn interior','gameplay metadata','main-thread outdoor/room collision tables and initial OAM','north pasture, south field and regional overworld','reserved','reserved','fixed code, audio, NMI palettes'],'outdoor_areas':len(areas),'npcs':4,'animals':2,'overworld_destinations':3,'graphics_baseline':'0031 WILLIBAB regional terrain and destinations; 0029 quieter grass and dirt, larger town paving, broad interior planks; pack actors/buildings retained','chr_bytes':len((P/'chr.bin').read_bytes()),'farmable_tiles_per_area':N,'farmable_tiles':N*2,'economy':{'crop_sell_price':SELL_PRICE,'egg_sell_price':3,'milk_sell_price':8,'demo_feed_cost':0,'seed_buy_price':SEED_PRICE,'wallet_max':MAX_GOLD},'sha256':hashlib.sha256(rom).hexdigest()},indent=2))
 print('Built farming ROM:',len(rom),'bytes;',len(code),'code;',len(payload),'total code/data bytes')
 
 # Address-binding include for this exact generated ROM, not relocatable objects.
