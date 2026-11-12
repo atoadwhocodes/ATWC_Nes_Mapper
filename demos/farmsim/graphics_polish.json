@@ -1,0 +1,26 @@
+{
+  "original_tiles": [
+    48,
+    148,
+    152,
+    156,
+    160
+  ],
+  "background_bases": [
+    32,
+    40
+  ],
+  "purpose": "quieter grass, pebble dirt and irregular path edges",
+  "preserved": "pack actor/building pixels, sky, moon, CHR layout and palette families",
+  "town_paving_tiles": [
+    48
+  ],
+  "interior_plank_tiles": [
+    40
+  ],
+  "interior_base": 112,
+  "forest_path_tiles": [
+    176,
+    180
+  ]
+}

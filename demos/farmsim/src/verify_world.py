@@ -66,7 +66,7 @@ west();assert get('area')==2;west();assert get('area')==1
 assert bytes(b.mem[0x6000:0x6280])==meadow_data
 west();assert get('area')==0;assert bytes(b.mem[0x6000:0x6280])==farm_data
 # Destination collision agrees at every cell of all four areas.
-for ar,filename in enumerate(('collision.bin','meadow_collision.bin','trail_collision.bin','town_collision.bin','forest_collision.bin','west_collision.bin')):
+for ar,filename in enumerate(('collision.bin','meadow_collision.bin','trail_collision.bin','town_collision.bin','forest_collision.bin','west_collision.bin','north_collision.bin','south_collision.bin')):
  expected=(P/filename).read_bytes();saved=snapshot()
  for y in range(15):
   for x in range(32):
@@ -85,6 +85,6 @@ assert b.oam[252]==48
 assert maxnmi<2273 and maxmain+maxnmi<29780
 from preview import render_shots
 render_shots(rom,shots,P,'town_preview.png')
-report={'result':'PASS','frames':frames,'max_nmi_cycles_including_dma':maxnmi,'max_main_cycles':maxmain,'checks':['six maps; directed routes checked separately','NPC talk priority and held A','merchant purchase and town shop return','blacksmith/resident close without purchase','public areas cannot mutate crop records','2880 collision cells match assets','crop persistence across town round trip','night CHR and moon'],'limitations':'Modeled I/O, not full PPU or actual Mesen save-state testing'}
+report={'result':'PASS','frames':frames,'max_nmi_cycles_including_dma':maxnmi,'max_main_cycles':maxmain,'checks':['eight maps; directed routes checked separately','NPC talk priority and held A','merchant purchase and town shop return','blacksmith/resident close without purchase','public areas cannot mutate crop records','3840 collision cells match assets','crop persistence across town round trip','night CHR and moon'],'limitations':'Modeled I/O, not full PPU or actual Mesen save-state testing'}
 (P/'world_validation.json').write_text(json.dumps(report,indent=2));print(json.dumps(report,indent=2))
 ''',e)

@@ -7,7 +7,9 @@
       "east": 1,
       "scene": 0,
       "wram": 0,
-      "farmable": true
+      "farmable": true,
+      "north": 6,
+      "south": 7
     },
     {
       "id": 1,
@@ -16,7 +18,9 @@
       "east": 2,
       "scene": 3,
       "wram": 1,
-      "farmable": true
+      "farmable": true,
+      "north": null,
+      "south": null
     },
     {
       "id": 2,
@@ -25,7 +29,9 @@
       "east": 3,
       "scene": 4,
       "wram": 1,
-      "farmable": false
+      "farmable": false,
+      "north": null,
+      "south": null
     },
     {
       "id": 3,
@@ -34,7 +40,9 @@
       "east": 4,
       "scene": 5,
       "wram": 1,
-      "farmable": false
+      "farmable": false,
+      "north": null,
+      "south": null
     },
     {
       "id": 4,
@@ -43,7 +51,9 @@
       "east": null,
       "scene": 6,
       "wram": 1,
-      "farmable": false
+      "farmable": false,
+      "north": null,
+      "south": null
     },
     {
       "id": 5,
@@ -51,6 +61,30 @@
       "west": null,
       "east": 0,
       "scene": 7,
+      "wram": 1,
+      "farmable": false,
+      "north": null,
+      "south": null
+    },
+    {
+      "id": 6,
+      "name": "North Pasture",
+      "west": null,
+      "east": null,
+      "north": null,
+      "south": 0,
+      "scene": 10,
+      "wram": 1,
+      "farmable": false
+    },
+    {
+      "id": 7,
+      "name": "South Field",
+      "west": null,
+      "east": null,
+      "north": 0,
+      "south": null,
+      "scene": 11,
       "wram": 1,
       "farmable": false
     }
@@ -163,5 +197,15 @@
       "product": "egg",
       "sell_price": 3
     }
-  ]
+  ],
+  "vertical_gates": {
+    "x_min": 420,
+    "x_max": 444,
+    "north_y": 76,
+    "south_y": 232,
+    "arrival_x": 432,
+    "arrival_from_south_y": 216,
+    "arrival_from_north_y": 92,
+    "transition": "black load"
+  }
 }

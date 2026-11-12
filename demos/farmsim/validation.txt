@@ -1,4 +1,7 @@
-ROM SHA256 ac87f611cb1fa63f2600e630f272600258c3290a7816be2612de505b72fbdf6e
+ROM SHA256 cdb91c44eca6d98e1bc838fcc69774e1da05f2d83824f7d08ef1dd044357654b
+
+verify_vertical.py
+PASS 50 vertical entry widths, walking returns, dash, closed boundaries, four-way arrival escape, mid-load replay, inventory/crop persistence and bank 4 scenes; cycles 1935 7906
 
 verify_audio.py
 {
@@ -29,12 +32,12 @@ verify_world.py
   "max_nmi_cycles_including_dma": 1992,
   "max_main_cycles": 8081,
   "checks": [
-    "six maps; directed routes checked separately",
+    "eight maps; directed routes checked separately",
     "NPC talk priority and held A",
     "merchant purchase and town shop return",
     "blacksmith/resident close without purchase",
     "public areas cannot mutate crop records",
-    "2880 collision cells match assets",
+    "3840 collision cells match assets",
     "crop persistence across town round trip",
     "night CHR and moon"
   ],
@@ -48,7 +51,7 @@ verify_west.py
 PASS: west gate, barn doorway/notice/return, public crop protection, farm persistence, dusk banks, indoor merchants and shop return
 
 verify_animals.py
-PASS: two animation poses; <=8 sprites/scanline; feed once/day; milk/egg after sleep; no unfed output; no held-A duplication; 99-item cap; feed bin; barn collision; model snapshot replay. Cycles 1992 14062
+PASS: two animation poses; <=8 sprites/scanline; feed once/day; milk/egg after sleep; no unfed output; no held-A duplication; 99-item cap; feed bin; barn collision; model snapshot replay. Cycles 1992 13662
 
 verify_routes.py
 PASS 240 route/entry cases, four-direction escape, 2922 road movement frames, closed boundaries, mid-load model snapshot replay; cycles 1935 8054
@@ -58,7 +61,7 @@ verify_roundtrip.py
   "result": "PASS",
   "frames": 667,
   "max_nmi_cycles_including_dma": 1992,
-  "max_main_cycles": 14092,
+  "max_main_cycles": 13692,
   "checks": [
     "edge exits both directions",
     "watered versus dry crops across inactive fields",
@@ -100,3 +103,5 @@ PASS sky rows, black load, house/shop entry, plant/water/sleep, dusk moon; NMI 1
 
 tests/lighting.py
 PASS: town route and NPC dialogue; actual mapper plus emitted ROM, dusk watering, field round trip, bed, morning, active pages and raster IRQ.
+
+Final graphics-only correction: restored town facade tiles 156–163; protected all non-terrain bytes against 0028 CHR. Re-ran verify_graphics.py and preview_0029.py on final ROM. Gameplay PRG unchanged.
