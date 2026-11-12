@@ -1,0 +1,12 @@
+{
+  "baseline": {
+    "boot_instructions": 4230,
+    "boot_cpu_cycles": 14137,
+    "actual_mapper_pixels_match_reference": true
+  },
+  "extended": {
+    "boot_instructions": 8339,
+    "boot_cpu_cycles": 28843,
+    "actual_mapper_pixels_match_reference": true
+  }
+}

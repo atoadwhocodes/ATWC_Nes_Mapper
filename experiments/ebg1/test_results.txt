@@ -1,0 +1,2 @@
+PASS: actual ATWC1.h register, pending, reset, serialization, banking and 360 synthetic rendering frames (3 CPU phases).
+PASS 11520 tile/mode/page cases; sprite isolation, read isolation, bounds, reset, port wrap, in-flight serialization
