@@ -17,3 +17,12 @@ Reviewed representative sheets at native resolution and archive contents. This i
 The first 65536 CHR bytes, collision maps and existing destination coordinates are unchanged from 0030. The mapper's existing banking loads region-specific CHR; no new mapper capability is claimed. Artwork conversion is deterministic, with 51 unique background tiles used out of 160 available.
 
 Public GitHub source changes exclude uploaded asset sheets and ROM binaries. This private build package includes the selected CC BY overworld sheets with the supplied attribution. Other packs remain separate uploads.
+
+## 0033 local building pass
+Selected the already-supplied Tiny Wonder Farm objects and Tiny Wonder Interior
+(kitchen/office) plus the Willibab / Monsteretrope TOWNS_ALL_1x sheet. Roof textures,
+wall textures, doors, windows, tables and bookcases are composed to existing
+footprints and reduced to NES 2bpp. Jade, Classic Quest Town and other character
+packs are not newly integrated. Current Tiny Wonder animals and residents remain.
+This is selective compatible reuse, not an exhaustive asset import. Public source
+continues to exclude source sheets and converted art binaries.
