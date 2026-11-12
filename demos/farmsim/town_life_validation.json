@@ -1,0 +1,15 @@
+{
+  "result": "PASS",
+  "checks": [
+    "both directions of market/civic/riverside/forest loop",
+    "three doors and exact returns",
+    "service counter dialogue",
+    "two moving residents",
+    "dialogue pauses walking",
+    "evening tavern gathering",
+    "bank restoration"
+  ],
+  "max_main_cycles": 8832,
+  "max_nmi_cycles": 2027,
+  "limits": "Modeled I/O; full Mesen acceptance pending"
+}

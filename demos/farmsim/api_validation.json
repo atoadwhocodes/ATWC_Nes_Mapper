@@ -1,0 +1,18 @@
+{
+  "wram_nmi_injection_cases": 4,
+  "wram_storage_checks": "banks 0/1 isolated; writes blocked when disabled",
+  "result": "PASS",
+  "nmi_injection_cases": 42,
+  "checks": [
+    "NMI at each PRG-setter instruction boundary with ready 0 and 1, including night palette upload",
+    "11-bit bank mask and getters for all three windows",
+    "initialization resets hardware and shadows, including Aux bank",
+    "ID detection success/failure",
+    "IRQ disable preserves pending; read-to-ack clears pending",
+    "WRAM bank mask and write-enable bit preserving bit 6",
+    "CHR single-slot high-write commit; invalid slot rejected",
+    "unsupported CHR group commit reports carry set",
+    "banked scene loader restores nondefault caller mapping"
+  ],
+  "limits": "High-bank register values tested without reading absent ROM banks. IRQ pending is injected in the model; no scanline detector or hardware timing is proven."
+}
