@@ -1,0 +1,18 @@
+diff --git a/Core/NES/MapperFactory.cpp b/Core/NES/MapperFactory.cpp
+index b5f6c5f..c715467 100644
+--- a/Core/NES/MapperFactory.cpp
++++ b/Core/NES/MapperFactory.cpp
+@@ -1,4 +1,5 @@
+ #include "pch.h"
++#include "NES/Mappers/Homebrew/ATWC1.h"
+ #include "NES/MapperFactory.h"
+ #include "NES/NesConsole.h"
+ #include "NES/Loaders/RomLoader.h"
+@@ -279,6 +280,7 @@ BaseMapper* MapperFactory::GetMapperFromID(RomData& romData)
+ {
+ 	// clang-format off
+ 	switch(romData.Info.MapperID) {
++		case 4095: return new ATWC1();
+ 		case 0: return new NROM();
+ 		case 1: return new MMC1();
+ 		case 2: return new UNROM();

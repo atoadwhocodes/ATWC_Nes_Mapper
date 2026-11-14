@@ -1,0 +1,57 @@
+{
+  "scroll_1000_frame": {
+    "ram_scroll": [
+      1,
+      0
+    ],
+    "mismatch_pixels": 0,
+    "capture_offset": [
+      0,
+      0
+    ]
+  },
+  "scroll_20_frame": {
+    "ram_scroll": [
+      14,
+      0
+    ],
+    "mismatch_pixels": 0,
+    "capture_offset": [
+      0,
+      0
+    ]
+  },
+  "scroll_260_frame": {
+    "ram_scroll": [
+      253,
+      0
+    ],
+    "mismatch_pixels": 0,
+    "capture_offset": [
+      0,
+      0
+    ]
+  },
+  "scroll_515_frame": {
+    "ram_scroll": [
+      509,
+      0
+    ],
+    "mismatch_pixels": 0,
+    "capture_offset": [
+      0,
+      0
+    ]
+  },
+  "scroll_760_frame": {
+    "ram_scroll": [
+      0,
+      242
+    ],
+    "mismatch_pixels": 0,
+    "capture_offset": [
+      0,
+      0
+    ]
+  }
+}
