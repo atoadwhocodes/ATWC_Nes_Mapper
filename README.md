@@ -17,11 +17,49 @@ GitHub Actions runs this same synthetic mapper test. The stubs model selected
 Mesen interfaces; passing does not establish full PPU timing or physical hardware
 compatibility. See [status and migration](docs/status-and-migration.md).
 
-The private FarmSim development package has reached build 0027, exercising area
-streaming, graphics banks, raster effects, independent crops, shops and animals.
+The original imported reference was exercised in private FarmSim build 0027,
+including area streaming, graphics banks, raster effects, crops, shops and animals.
 The full demo is not yet imported here. Its third-party graphics/audio source
 packs are excluded pending redistribution review. The CI job does not build or
 playtest that ROM.
 
 Next work: [graphics and audio preparation](docs/next-pass.md).
 The existing repository LICENSE is retained. Asset-pack licenses are separate.
+
+## Asset Compiler v0.1 (Python)
+
+A standalone PNG-to-NES graphics compiler is now available at
+[tools/asset-compiler](tools/asset-compiler/README.md). It produces 2bpp 16-byte
+CHR tiles, four NES palettes, tile maps, deterministic previews, and **draft**
+EBG1 descriptors. The original, reproducible example graphic and Python unit
+tests are included; generated output files are intentionally not committed.
+
+To run locally with Python 3.10+:
+
+```sh
+cd tools/asset-compiler
+python -m pip install -e .
+python -m unittest discover -s tests -v
+python -m atwc_asset_compiler examples/original_cyberpunk_street.png --out output/street --profile rev-a
+python -m atwc_asset_compiler.verify output/street
+```
+
+**Compatibility boundary:** v0.1 does not build ROMs or upload EBG1 data to
+MesenCE. Its draft `AA CCCCCC` descriptor layout has not been validated against
+the later 0035+ mapper, and its `rev-b` output is a design-time staging table,
+not an implemented 16-byte CHR banking mode. Refer to the compiler's README
+for formats, limitations, and future MesenCE verification work.
+
+## Rev-B architecture proposals (not implemented)
+
+- [Rev-B 1 GiB PRG/CHR and WRAM/NVRAM capacity proposal](docs/ATWC1_RevB_Memory.md)
+- [Rev-B optional 16-byte CHR banking and 512-slot mapping proposal](docs/ATWC1_RevB_CHR_Banking.md)
+
+These documents are **target specifications**, not claims about the current
+ATWC1.h or MesenCE. The existing Rev-A register ABI and software-only tests
+remain unchanged. Do not treat the Asset Compiler's Rev-B staging table as
+valid mapper transactions.
+
+[Asset Compiler GitHub Actions workflow](.github/workflows/asset-compiler-tests.yml)
+runs Python unit tests and sample Rev-A / Rev-B binary round trips. It does not
+build a ROM, run MesenCE, or prove hardware graphics timing.

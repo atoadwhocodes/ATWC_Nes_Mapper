@@ -1,0 +1,63 @@
+name: ATWC-1 Asset Compiler
+
+on:
+  push:
+    branches:
+      - main
+      - tooling/asset-compiler-v0.1
+    paths:
+      - 'tools/asset-compiler/**'
+      - '.github/workflows/asset-compiler-tests.yml'
+      - 'docs/ATWC1_RevB_Memory.md'
+      - 'docs/ATWC1_RevB_CHR_Banking.md'
+  pull_request:
+    paths:
+      - 'tools/asset-compiler/**'
+      - '.github/workflows/asset-compiler-tests.yml'
+      - 'docs/ATWC1_RevB_Memory.md'
+      - 'docs/ATWC1_RevB_CHR_Banking.md'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  asset-compiler:
+    name: Python ${{ matrix.python-version }} — compile and verify
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ['3.10', '3.12']
+    defaults:
+      run:
+        working-directory: tools/asset-compiler
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: pip
+          cache-dependency-path: tools/asset-compiler/pyproject.toml
+
+      - name: Install compiler and Pillow
+        run: python -m pip install -e .
+
+      - name: Run unit tests
+        run: python -m unittest discover -s tests -v
+
+      - name: Compile Rev-A sample
+        run: python -m atwc_asset_compiler examples/original_cyberpunk_street.png --out output/ci-rev-a --profile rev-a
+
+      - name: Binary round-trip check for Rev-A
+        run: python -m atwc_asset_compiler.verify output/ci-rev-a
+
+      - name: Compile Rev-B staging sample
+        run: python -m atwc_asset_compiler examples/original_cyberpunk_street.png --out output/ci-rev-b --profile rev-b
+
+      - name: Binary round-trip check for Rev-B staging
+        run: python -m atwc_asset_compiler.verify output/ci-rev-b
