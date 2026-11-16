@@ -1,0 +1,16 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "atwc1-asset-compiler"
+version = "0.1.0"
+description = "Deterministic NES CHR and EBG1 logical metadata compiler for ATWC-1 projects"
+requires-python = ">=3.10"
+dependencies = ["Pillow>=10.0"]
+
+[project.scripts]
+atwc-assets = "atwc_asset_compiler.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["atwc_asset_compiler*"]

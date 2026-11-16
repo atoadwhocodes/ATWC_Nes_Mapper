@@ -6,3 +6,4 @@ __pycache__/
 *.zip
 *.7z
 *.nes
+/tools/asset-compiler/output/
