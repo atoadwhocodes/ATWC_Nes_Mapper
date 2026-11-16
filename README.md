@@ -49,3 +49,17 @@ MesenCE. Its draft `AA CCCCCC` descriptor layout has not been validated against
 the later 0035+ mapper, and its `rev-b` output is a design-time staging table,
 not an implemented 16-byte CHR banking mode. Refer to the compiler's README
 for formats, limitations, and future MesenCE verification work.
+
+## Rev-B architecture proposals (not implemented)
+
+- [Rev-B 1 GiB PRG/CHR and WRAM/NVRAM capacity proposal](docs/ATWC1_RevB_Memory.md)
+- [Rev-B optional 16-byte CHR banking and 512-slot mapping proposal](docs/ATWC1_RevB_CHR_Banking.md)
+
+These documents are **target specifications**, not claims about the current
+ATWC1.h or MesenCE. The existing Rev-A register ABI and software-only tests
+remain unchanged. Do not treat the Asset Compiler's Rev-B staging table as
+valid mapper transactions.
+
+[Asset Compiler GitHub Actions workflow](.github/workflows/asset-compiler-tests.yml)
+runs Python unit tests and sample Rev-A / Rev-B binary round trips. It does not
+build a ROM, run MesenCE, or prove hardware graphics timing.
